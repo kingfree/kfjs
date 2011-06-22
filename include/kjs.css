@@ -1,0 +1,141 @@
+/*
+ * 王者自由评测系统 CSS 样式文件
+ * 版权所有 田劲锋 (c) 2011-2012
+ */
+html {
+	background: #F9F9F9;
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+	font-family: "Ubuntu", "微软雅黑", "文泉驿微米黑" !important;
+/*	background-color: #F9F8F9;*/
+	background-color: #FFFFFF;
+}
+
+p {
+	padding: 4px;
+	margin: 4px;
+	font-size: 14px !important;
+}
+
+#Top {
+	width: 100%;
+	border: 2px;
+	border-collapse: collapse;
+	background-color: #8BB6FF;
+}
+
+#TopUser {
+	color: #FFFFFF;
+}
+#TopUser a:link, #TopUser a:visited {
+	color: #FFF111;
+	text-decoration: none;
+}
+#TopUser a:hover {
+	color: #FFF000;
+	text-decoration: underline;
+}
+
+#TopLogo {
+	font-size: 35px;
+	color: #FFF0FF;
+	text-align: center;
+	font-family: "华文行楷", "华文楷体", "楷体_GB2312";
+}
+
+#TopLinkBar {
+	font-size: 15px;
+	color: #FFFA11;
+}
+#TopLinkBar a:link, #TopLinkBar a:visited {
+	text-decoration: none;
+	color: #EEFFFF;
+}
+#TopLinkBar a:hover {
+	color: #FFFA11;
+}
+
+#TopContest {
+	background-color: #CCFFFF;
+	color: #BBBBB;
+}
+
+#Wrapper {
+	background-color: #66ff66;
+	/*background-image: url("images/background.png");*/
+}
+
+#Main {
+	/*background-color: #e5ffcc;*/
+	background-color: #FFFFFF;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 12px 0px 30px 0px;
+}
+
+#Bottom {
+	width: 100%;
+	border: 0px;
+	border-collapse: collapse;
+	background-color: #FFFFCC;
+}
+
+#BottomLang {
+	color: #111111;
+	text-decoration: overline;
+}
+#BottomLang a {
+	color: #444444;
+	text-decoration: overline;
+}
+
+#BottomCopy {
+	text-align: center;
+}
+
+#BottomLinks {
+	color: #999999;
+}
+
+#Status {
+	width: 100%;
+	border: 0px;
+	border-collapse: collapse;
+	background-color: #EDECEB;
+}
+
+.box {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+
+	-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	-o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+	background-color: #FFFFFF;
+	border: 2px solid #FFFFFF;
+}
+
+.glass {
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+
+.lsbb{
+	background:#eee;
+	border:1px solid #999;
+	border-top-color:#ccc;
+	border-left-color:#ccc;
+	height:25px;
+	width:100px;
+}
+
+.oddrow{background-color:#D7EBFF;white-space: nowrap;}
+.evenrow{background-color:#FFFFFF;white-space: nowrap;}
+
