@@ -10,8 +10,7 @@ body {
 	padding: 0px;
 	margin: 0px;
 	font-family: "Ubuntu", "微软雅黑", "文泉驿微米黑" !important;
-/*	background-color: #F9F8F9;*/
-	background-color: #FFFFFF;
+	background-color: #F9F8F9;
 }
 
 p {
@@ -69,8 +68,7 @@ p {
 }
 
 #Main {
-	/*background-color: #e5ffcc;*/
-	background-color: #FFFFFF;
+	background-color: #e5ffcc;
 	width: 960px;
 	margin: 0px auto 0px auto;
 	padding: 12px 0px 30px 0px;
@@ -135,6 +133,58 @@ p {
 	height:25px;
 	width:100px;
 }
+
+.ptt {
+width : 900px;
+line-height : 30px;
+margin : 10px 20px 0 25px;
+padding-left : 10px;
+font-size : 14px;
+color : #000000;
+font-weight : bold;
+text-align : left;
+background-color : #e7f0ff;
+}
+.ptx {
+width : 890px;
+margin : 0 30px 10px 25px;
+padding : 5px 0 5px 20px;
+font-size : 12px;
+text-align : left;
+background-color : #f7ffe7;
+}
+.sio {
+display : table;
+margin : 10px 20px 0 25px;
+border-collapse : separate;
+}
+.row {
+display : table-row;
+}
+.row div {
+display : table-cell;
+}
+.row .hio {
+width : 430px;
+line-height : 30px;
+margin : 10px 20px 0 25px;
+padding-left : 10px;
+font-size : 14px;
+color : #000000;
+font-weight : bold;
+text-align : left;
+background-color : #e7f0ff;
+}
+.row .io {
+width : 435px;
+text-align : left;
+margin : 0 30px 10px 25px;
+padding : 5px 0 5px 20px;
+font-size : 12px;
+text-align : left;
+background-color : #f7ffe7;
+}
+
 
 .oddrow{background-color:#D7EBFF;white-space: nowrap;}
 .evenrow{background-color:#FFFFFF;white-space: nowrap;}

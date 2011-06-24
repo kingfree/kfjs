@@ -19,7 +19,7 @@ if (isset($_GET['cid']))
 	$index->ContestHead();
 $index->MainHead();
 
-echo "<h2 align=center>$prob->title</h2>\n";
+echo "<h2 align=center>$prob->problem_id : $prob->title</h2>\n";
 $prob->ShowProblem();
 
 $index->MainFoot();

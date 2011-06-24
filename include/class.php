@@ -75,7 +75,8 @@ class Page {
 		echo "<tr>\n";
 		echo "<td width=20% align=left>"._GB_Title."</td>\n";
 		echo "<td align=center>".GetBrowser($_SERVER['HTTP_USER_AGENT'])."</td>\n";
-		echo "<td width=30% align=right>当前时间: <span id=nowdate></span>&nbsp;</td>\n";
+		//echo "<td width=30% align=right>当前时间: <span id=nowdate></span>&nbsp;</td>\n";
+		echo "<td width=30% align=right>服务器时间: ".strftime("%b %d %Y %X",time())."&nbsp;</td>\n";
 		echo "</tr>\n";
 		echo "</table>\n";
 	}
@@ -93,7 +94,7 @@ class Page {
 	}
 	public function HTMLFoot() {
 		echo "</html>\n";
-		include("../include/time.php");
+		//include("../include/time.php");
 	}
 	public function ShowMeta() {
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />\n";
@@ -115,6 +116,8 @@ class Page {
 	public function ShowLinkBar() {
 		echo " <a href='../index'>" . _GB_HOME . "</a>\n";
 		echo " <a href='../problem'>" . _GB_PROBLEMS . "</a>\n";
+		echo " <a href='../index/datas.php'>" . _GB_DATAS . "</a>\n";
+		//echo " <a href='../data'>" . _GB_DATAS . "</a>\n";
 		echo " <a href='../contest'>" . _GB_CONTEST . "</a>\n";
 		echo " <a href='../status'>" . _GB_STATUS . "</a>\n";
 		echo " <a href='../users'>" . _GB_USER . "</a>\n";
@@ -129,7 +132,7 @@ class Page {
 		echo " <a href='../lang/index.php?lang=zh'>正體中文</a>\n";
 		echo " <a href='../lang/index.php?lang=en'>English</a>\n";
 		echo " <a href='../lang/index.php?lang=ja'>日本語</a>\n";
-		echo " <a href='../lang/index.php?lang=kr'>항울</a>\n";
+		echo " <a href='../lang/index.php?lang=kr'>한국어</a>\n";
 	}
 
 	public function ShowCopyright() {
@@ -162,6 +165,7 @@ require_once("../include/func.php");
 //加载类
 require_once("../users/class.php");
 require_once("../problem/class.php");
+require_once("../judge/class.php");
 require_once("../admin/class.php");
 require_once("../contest/class.php");
 require_once("../groups/class.php");

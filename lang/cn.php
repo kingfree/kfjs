@@ -4,6 +4,7 @@
 	define("_GB_Logo_Name","王者自由评测系统");
 	define("_GB_HOME", "主页");
 	define("_GB_PROBLEMS", "题目");
+	define("_GB_DATAS", "数据");
 	define("_GB_STATUS", "状态");
 	define("_GB_JUDGE", "评测");
 	define("_GB_RANKLIST", "排名");

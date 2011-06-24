@@ -123,9 +123,9 @@ class Problem {
 	public function ShowProblem() {
 		global $judge_type, $io_type, $compare_type;
 	echo "<div><table frame=void width=100%>";
-	echo "<td width=50%><div class='box'>\n";
-	echo "<h3>题目详细信息</h3>\n";
-	echo "<table frame=box width=100% rules=all>";
+	echo "<td width=50%><div class='box' style='margin:0px 0px 0px 25px;'>\n";
+	echo "<div class='ptt' style='width: 90%; margin : 10px 20px 0 10px;'>题目详细信息</div>\n";
+	echo "<div class='ptx' style='width: 88%; margin : 0 30px 10px 10px;'><table frame=box width=95% rules=all style='margin : 5px;'>";
 	echo "<tr><td width=20%><span class=green>"._GB_Problem_Name."</span></td><td>$this->title</td>";
 	echo "<td width=20%><span class=green>"._GB_Problem_English_Name."</span></td><td>$this->English</td></tr>";
 	if($this->program_type!=1) {
@@ -136,12 +136,13 @@ class Problem {
 	echo "<td><span class=green>"._GB_Problem_Source."</span></td><td><a href='../problem/index.php?search=$this->source'>".nl2br($this->source)."</td></td></tr>";
 	echo "<tr><td><span class=green>"._GB_Judge_Type."</span></td><td colspan=3>{$judge_type[$this->program_type]}</td></tr>";
 	echo "<tr><td><span class=green>"._GB_Compare_Type."</span></td><td colspan=3>{$compare_type[$this->compare_type]}</td></tr>";
-	echo "</table></div></td>";
+	echo "</table></div></div></td>";
 	echo "<td><table>";
 	echo "<tr><div class='box' style='width: 340px; float:right;'>";
-	echo "<h3>提交程序或答案</h3>";
+	echo "<div class='ptt' style='width: 310px; margin : 10px 20px 0 10px;'>提交程序或答案</div>";
+	echo "<div class='ptx' style='width: 300px; margin : 0 30px 10px 10px;'>";
 	echo "<a href='../judge/status.php?id={$this->problem_id}'>状态</a> : 提交".$this->submit." ，解决".$this->accepted."";
-	echo "<form action='../problem/submit.php?id=$this->problem_id' method=post enctype='multipart/form-data'>\n";
+	echo "<form action='../judge/submit.php?id=$this->problem_id' method=post enctype='multipart/form-data'>\n";
 	if($this->program_type==0 || $this->program_type==2) {
 		echo "<li>"; $this->Language_Type(); echo "</li>\n";
 	} else {
@@ -152,21 +153,23 @@ class Problem {
 	}
 	echo "<li><input type='file' name='file' id='file' size=20 /></li>\n";
 	echo "<center><input class='lsbb' type='submit' name='submit' value="._GB_SUBMIT." class='Button'/></center>\n";
-	echo "</form>\n";
+	echo "</form></div>\n";
 	echo "</div></tr></table></td><td width=40px>&nbsp</td>\n";
 	echo "</table></div>\n";
-
-	echo "<div class='box'><h3>"._GB_Description."</h3>\n".$this->description."\n</div>\n";
-	echo "<div class='box'><h3>"._GB_Input."</h3>\n".$this->input."\n</div>\n";
-	echo "<div class='box'><h3>"._GB_Output."</h3>\n".$this->output."\n</div>\n";
-	echo "<div class='box'><table frame=box width=80% rules=all>\n";
-	echo "<tr>\n<th>"._GB_Sample_Input."</th>\n";
-	echo "<th>"._GB_Sample_Output."</th>\n</tr>\n";
-	echo "<tr>\n<td><pre>".($this->sample_input)."</pre></td>\n";
-	echo "<td><pre>".($this->sample_output)."</pre></td>\n</tr>\n";
-	echo "</table>\n</div>\n";
-	echo "<div class='box'><h3>"._GB_HINT."</h3>\n".$this->hint."\n</div>\n";;
-
+	
+	echo "<div class=\"ptt\">"._GB_Description."</div>\n<div class=\"ptx\">".$this->description."</div>\n";
+	echo "<div class=\"ptt\">"._GB_Input."</div>\n<div class=\"ptx\">".$this->input."</div>\n";
+	echo "<div class=\"ptt\">"._GB_Output."</div>\n<div class=\"ptx\">".$this->output."</div>\n";
+	echo "<div class=\"sio\"> ";
+	echo "<div class=\"row\"> ";
+	echo "  <div class=\"hio\">"._GB_Sample_Input."</div> ";
+	echo "  <div class=\"hio\">"._GB_Sample_Output."</div> ";
+	echo "</div><div class=\"row\"> ";
+	echo "  <div class=\"io\"><pre>".($this->sample_input)."</pre></div> ";
+	echo "  <div class=\"io\"><pre>".($this->sample_output)."</pre></div> ";
+	echo "</div> ";
+	echo "</div>";
+	echo "<div class=\"ptt\">"._GB_HINT."</div>\n<div class=\"ptx\">".$this->hint."</div>\n";;
 	}
 
 	public function AddProblem() {
