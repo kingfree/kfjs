@@ -2,25 +2,38 @@
 
 class Judge {
 
-public $jid, $pid, $cid, $uid, $langtype, $filename, $rundir, $datadir, $start_num, $end_num, $pro_filename, $time_limit, $memory_limit;
+public $langtype, $filename, $rundir, $datadir, $start_num, $end_num, $pro_filename, $time_limit, $memory_limit;
 public $input_template, $output_template, $answer_template;
 public $compare_type, $program_type, $io_type;
 public $Complie_CMD;
-public $result, $detail, $score, $runtime, $memory, $ip;
+public $jid, $pid, $cid, $uid, $result, $detail, $score, $runtime, $memory, $ip, $submit_time;
 
 public function __construct($pid=-1, $cid=-1) {
+    $this->jid = $this->pid = $this->cid = $this->uid =
+        $this->result = $this->detail = $this->score =
+        $this->runtime = $this->memory = $this->ip = $this->submit_time = 0;
     $this->pid = $pid;
     $this->rundir = "../upload/".$this->pid."/";
     if (!file_exists($this->rundir)) mkdir($this->rundir);
     $this->io_type = $_POST['io_type'];
     chdir($this->rundir);
     $this->datadir = "../../data/".$this->pid."/";
+
+    if(!isset($_SESSION['user_id']))
+        ShowErrorGo("请登录！", -1);
+    else {
+        $this->uid = $_SESSION['user_id'];
+        $this->ip = "0.0.0.0";//$_SERVER['REMOTE_ADDR'];
+        $this->submit_time = date("Y-m-d h:i:s");
+        $this->detail = "";
+        echo $this->submit_time;
+    }
 }
 
 public function Upload() {
     echo "<div class=ptt>正在上传文件……</div>\n<div class=ptx>";
     if ($_FILES["file"]["error"] > 0) {
-        ShowError("错误: ".$_FILES["file"]["error"], $_FILES["file"]["error"]);
+        ShowErrorGo("错误: ".$_FILES["file"]["error"], $_FILES["file"]["error"], 0);
     } else {
         echo "文件: ".$_FILES["file"]["name"]."<br />";
         echo "类型: ".$_FILES["file"]["type"]."<br />";
@@ -36,7 +49,12 @@ public function Upload() {
 }
 
 public function CheckLang() {
-echo "<div class=ptt>正在检测提交语言……</div>\n<div class=ptx>";
+    echo "<div class=ptt>正在检测文件……</div>\n<div class=ptx>";
+    if($_FILES["file"]["size"]>100000) {
+        unlink($this->filename);
+        ShowErrorGo("文件过大！",-1);
+    }
+
 if($_POST['lang_type']=='auto') {
     if($_FILES["file"]["type"]=="text/x-pascal")
         $this->langtype = 2;
@@ -45,10 +63,10 @@ if($_POST['lang_type']=='auto') {
     elseif($_FILES["file"]["type"]=="text/x-c++src")
         $this->langtype = 1;
     else {
-		ShowError("暂时只支持自动检测 C/C++ 及 Pascal 语言！\n请返回后选择语言！",0);
+		ShowErrorGo("暂时只支持自动检测 C/C++ 及 Pascal 语言！请返回后选择语言！",-1);
 	}
 } else {
-	$this->langtype = $_POST['lang_type'] + 1;
+	$this->langtype = $_POST['lang_type'];
 }
 	$this->Get_Complie_CMD();
 echo "对您所使用的语言使用如下编译命令：<br />";
@@ -86,7 +104,12 @@ echo "<div class=ptt>正在编译……</div>\n<div class=ptx>";
 		echo "成功<br />\n<pre>\n$tmp\n</pre>";
 	else {
 		echo "<span style='color:red;'>失败</span><br />";
-		ShowError("编译错误信息：<br />\n<pre>\n$tmp\n</pre>");
+        $this->result = _num_CE;
+        $this->detail = _ch_CE;
+        $this->score = 0;
+        $this->memory = $this->runtime = -1;
+        $this->Adddata();
+		ShowErrorGo("编译错误信息：<br />\n<pre>\n$tmp\n</pre>",0);
     }
     echo "</div>";
 }
@@ -122,13 +145,9 @@ public function Judge() {
 
         echo "创建测试点{$i}…\n";
         if(file_exists($input_name)) unlink($input_name);
-        if(file_exists($answer_name)) unlink($answer_name);
         $now_in = str_replace("#", $i, $this->input_template);
         $crlink="ln -s {$this->datadir}{$now_in} {$input_name}";
 	    exec($crlink);
-        $now_ans = str_replace("#", $i, $this->answer_template);
-	    $crlink="ln -s {$this->datadir}{$now_ans} {$answer_name}";
-        exec($crlink);
 
         echo "运行…\n";
         $execute="(ulimit -v {$this->memory_limit}; a.exe)";
@@ -136,18 +155,39 @@ public function Judge() {
         exec($runcmd);
 
         echo "比较…\n";
-    	$fin=fopen($input_name,"r");
-    	$fout=fopen($output_name,"r");
+        if(file_exists($answer_name)) unlink($answer_name);
+        $now_ans = str_replace("#", $i, $this->answer_template);
+	    $crlink="ln -s {$this->datadir}{$now_ans} {$answer_name}";
+        exec($crlink);
+        if(!file_exists($output_name)) {
+            $now = _ch_NO;
+            echo _ch_NO."\n";
+        } else {
+        $fout=fopen($output_name,"r");
+        $fin=fopen($input_name,"r");
     	$fans=fopen($answer_name,"r");
         $score=$this->standard_compare($fans,$fout);
+        if($score == 10) $now = _ch_AC;
+        else if($score == 0) $now = _ch_WA;
+        else $now = $score;
         echo "得分【{$score}】\n";
-        $this->detail .= $score;
+        $this->score += $score;
+        $this->detail+= $now;
 		fclose($fin);
 		fclose($fout);
 		fclose($fans);
+        if(file_exists($output_name)) unlink($output_name);
+        }
 
         echo "<br />";
     }
+
+    if($this->score >= $this->end_num - $this->start_num + 1)
+        $this->result = _num_AC;
+    else
+        $this->result = _num_WA;
+    $this->runtime = 0;
+    $this->memory = 0;
 
     echo "</div>";
 /*
@@ -184,12 +224,27 @@ function standard_compare($f1,$f2) {
 				return 0;
 		}
 	}
-	return 1;
+	return 10;
+}
+
+	public function GetNewJID() {
+		$sql="SELECT max(`jid`) as jid FROM `submit`";
+		$result=mysql_query($sql);
+		$row=mysql_fetch_object($result);
+		$this->jid = $row->jid+1;
+		mysql_free_result($result);
+	}
+
+public function AddData() {
+    $this->GetNewJID();
+    $sql = "INSERT into `submit`(`jid`, `pid`, `cid`, `uid`, `result`, `detail`, `score`, `runtime`, `memory`, `ip`, `submit_time`, `judge_time`) VALUES($this->jid, $this->pid, $this->cid, \"$this->uid\", $this->result, \"$this->detail\", $this->score, $this->runtime, $this->memory, \"$this->ip\", \"$this->submit_time\", NOW())";
+    //echo "<pre>".$sql."</pre>";
+    mysql_query($sql) or die(mysql_error());
 }
 
 public function Congratulate() {
-
     echo "<div class=ptt>评测完成！</div>\n<div class=ptx>";
+    $this->AddData();
     echo $this->detail;
     echo "</div>\n";
 }
@@ -204,6 +259,16 @@ public function Congratulate() {
 	else
 		$s = "chmod +rx \"{$this->filename}\" && cp \"{$this->filename}\" \"a.exe\"";
 	$this->Complie_CMD = $s;
+}
+
+function GetStatus($str) {
+    $arr = parse_ini_file("../../judge/judge.ini");
+    return $arr[$str];
+}
+function SetStatus($str, $value) {
+    $arr = parse_ini_file("../../judge/judge.ini");
+    $arr[$str] = $value;
+    write_ini_file($arr, "../../judge/judge.ini");
 }
 
 }

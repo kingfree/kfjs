@@ -40,12 +40,37 @@ function HistoryGo($id) {
 }
 
 function ShowErrorGo($errormsg, $id, $errorcode=0) {
+	echo "$errormsg\n";
 	echo "<script language='javascript'>\n";
 	echo "alert(\"" .	$errormsg . "\");\n";
 	echo "history.go($id);\n";
-	echo "</script>";
+	echo "</script></body></html>";
 	exit($errorcode);
 }
 
+function   write_ini_file($array,$filename)   {   
+      $ok   =   "";   
+      $s   =   "";   
+      foreach($array   as   $k=>$v)   {   
+          if(is_array($v))   {   
+              if($k   !=   $ok)   {   
+                  $s   .=   LF."[$k]".LF;   
+                  $ok   =   $k;   
+              }   
+              $s   .=   write_ini_file($v,"");   
+          }else   {   
+              if(trim($v)   !=   $v   ||   strstr($v,"["))   
+  $v   =   "\"$v\"";   
+              $s   .=   "$k   =   $v".LF;   
+          }   
+      }   
+      if($filename   ==   "")   
+          return   $s;   
+      else   {   
+          $fp   =   fopen($filename,"w");   
+          fwrite($fp,$s);   
+          fclose($fp);   
+      }   
+  }
 
 ?>

@@ -40,7 +40,7 @@ if($prob->UpdateProblem()) {
 	echo "<h1>修改题目 ".$prob->problem_id." 失败！</h1>";
 } else {
 if($prob->AddProblem()) {
-	$basedir = OJ_DATA.$prob->problem_id;
+	$basedir = $prob->problem_id;
 	mkdir($basedir);
 	echo "<h3>添加题目 ".$prob->problem_id." 成功！</h3>\n";
 	echo "<p>请在".$basedir."目录下添加输入文件和答案文件，如下：\n";

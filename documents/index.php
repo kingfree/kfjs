@@ -11,6 +11,7 @@ $index->MainHead();
 <h1>如何使用王者自由评测系统？</h1>
 
 <?include("../documents/noi.php")?>
+<?include("../documents/cogs.php")?>
 
 <h2>关于</h2>
 <h2>安装</h2>

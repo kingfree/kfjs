@@ -2,9 +2,32 @@
 require_once("../include/class.php");
 $index = new Page();
 
-$index->HTMLHead(_GB_GROUP);
+$index->HTMLHead(_GB_STATUS);
 $index->BodyHead();
 $index->MainHead();
+
+
+if (isset($_GET['page']))
+	$page=intval($_GET['page']);
+else
+	$page=1;
+if (isset($_SESSION['user_id']))
+	$now_user_id=$_SESSION['user_id'];
+else
+	$now_user_id=0;
+if (isset($_SESSION['administrator']))
+	$admin="1";
+else
+	$admin="0";
+if(isset($_GET['search']))
+	$search=$_GET['search'];
+else
+	$search=0;
+
+$list = new StatusList($now_user_id, $page, $search);
+
+$list->ShowStatusList();
+/*
 $order_str=" ORDER BY `solution_id` DESC ";
 $start_first=1;
 // check the top arg
@@ -211,7 +234,7 @@ if (isset($_GET['prevtop']))
 else
 	echo "[<a href=status.php?".$str2."&top=".($top+20).">Previous Page</a>]&nbsp;&nbsp;";
 echo "[<a href=status.php?".$str2."&top=".$bottom."&prevtop=$top>Next Page</a>]";
-
+*/
 $index->MainFoot();
 $index->BodyFoot();
 $index->HTMLFoot();

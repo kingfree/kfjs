@@ -166,6 +166,7 @@ require_once("../include/func.php");
 require_once("../users/class.php");
 require_once("../problem/class.php");
 require_once("../judge/class.php");
+require_once("../status/class.php");
 require_once("../admin/class.php");
 require_once("../contest/class.php");
 require_once("../groups/class.php");
