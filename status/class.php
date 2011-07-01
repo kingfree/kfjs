@@ -226,7 +226,7 @@ WHERE `jid`=$this->jid";
 
 class StatusList extends Status {
 
-	public $user_id, $cnt, $pstart, $pend, $sub_arr, $acc_arr, $search;
+	public $user_id, $cnt, $pstart, $pend, $sub_arr, $acc_arr, $search, $sqlresult;
     public $jid, $pid, $cid, $uid, $result, $detail, $score, $runtime, $memory, $ip, $submit_time;
 
 	public function __construct($uid, $page, $search="") {
@@ -248,18 +248,7 @@ class StatusList extends Status {
 
 	public function ReadStatusList() {
 		$this->GetStatusCount();
-        //按用户ID读取题目
-		if($this->user_id!="0") {
-			$sql="SELECT * FROM `submit` WHERE ";
-		} else {
-		$sql="SELECT * FROM `submit` ".
-			"WHERE `defunct`='N' AND `jid` NOT IN(
-				SELECT `jid` FROM `contest_problem` WHERE `contest_id` IN (
-					SELECT `contest_id` FROM `contest` WHERE
-					(`end_time`>NOW() or private=1)and `defunct`='N'
-				)
-			) AND";
-		}
+        $sql="SELECT * FROM `submit` WHERE ";
 		//搜索
 		if($this->search!="0"){
 			$search=mysql_real_escape_string($this->search);
@@ -267,14 +256,14 @@ class StatusList extends Status {
 		} else {
 			$sql.="  `jid`>='".strval($this->pstart)."' AND `jid`<'".strval($this->pend)."' ";
 		}
-		$sql.=" ORDER BY `jid`";
+		$sql.=" ORDER BY -`jid`";
 		//开始执行
-		$this->result=mysql_query($sql);
+		$this->sqlresult=mysql_query($sql);
 	}
 
 	public function ShowStatusList() {
 		echo "<center>\n";
-		//题目搜索
+		//搜索
 		echo "<table width=90%><tr>\n";
 		echo "<td align=center><form action=../status/problem.php>"._GB_RUNID."<input type='text' name='id' size=8><input type='submit' value='"._GB_GO."' ></form></td>\n";
 		echo "<td> &nbsp; </td>\n";
@@ -283,28 +272,41 @@ class StatusList extends Status {
 		//标题行
 		echo "<table id='statuslist' width='90%'>";
 		echo "<tr align=center class='toprow'>";
-		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 1, 'int');\" width=10%><A>"._GB_PROBLEM_ID."</A>";
-		echo "<td width='60%'>"._GB_TITLE."</td><td width='20%'>"._GB_SOURCE."</td>";
-		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 4, 'int');\" width='5%'><A>"._GB_AC."</A></td>";
-		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 5, 'int');\" width='5%'><A>"._GB_SUBMIT."</A></td></tr>";
-		echo "</thead><tbody>";
+		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 1, 'int');\"><A>"._GB_RUNID."</A>\n";
+		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 2, 'int');\"><A>"._GB_PROBLEM_ID."</A></td>\n";
+		echo "<td><A>"._GB_USER."</A></td>\n";
+		echo "<td><A>"._GB_RESULT."</A></td>\n";
+		echo "<td><A>"._GB_DETAIL."</A></td>\n";
+		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 6, 'int');\"><A>"._GB_SCORE."</A></td>\n";
+		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 7, 'int');\"><A>"._GB_TIME."</A></td>\n";
+		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 8, 'int');\"><A>"._GB_MEMORY."</A></td>\n";
+		echo "<td><A>"._GB_IP."</A></td>\n";
+		echo "<td><A>"._GB_SUBMIT_TIME."</A></td>\n";
+		echo "</tr></thead><tbody>";
 		//循环显示
 		$cnt=0;
-		while ($row=mysql_fetch_object($this->result)) {
+		while ($row=mysql_fetch_object($this->sqlresult)) {
 			//阴阳行
 			if($cnt)
 				echo "<tr class='oddrow'>";
 			else
 				echo "<tr class='evenrow'>";
 			//题目信息
-			echo "<td align='center'>".$row->jid."</td>";
-			echo "<td align='left'><a href='../problem/problem.php?id=".$row->jid."'>".$row->detail."</a></td>";
-			echo "<td align='center'><a href='../problem/index.php?search=$row->uid'>".$row->uid."</a></td>";
-			echo "<td align='center'><a href='../status/index.php?jid=".$row->jid."&jresult=4'>".$row->result."</a></td><td align='center'><a href='../status/index.php?jid=".$row->jid."'>".$row->submit."</a></td>";
+    // $jid, $pid, $cid, $uid, $result, $detail, $score, $runtime, $memory, $ip, $submit_time;
+            echo "<td>".$row->jid."</td>\n";
+            echo "<td>".$row->pid."</td>\n";
+            echo "<td>".$row->uid."</td>\n";
+            echo "<td>".GetJudgeInfo($row->result)."</td>\n";
+            echo "<td>".$row->detail."</td>\n";
+            echo "<td>".$row->score."</td>\n";
+            echo "<td>".$row->runtime." s</td>\n";
+            echo "<td>".$row->memory." KB</td>\n";
+            echo "<td>".$row->ip."</td>\n";
+            echo "<td>".$row->submit_time."</td>\n";
 			echo "</tr>";
 			$cnt=1-$cnt;
 		}
-		mysql_free_result($this->result);
+		mysql_free_result($this->sqlresult);
 		echo "</tbody>\n";
 		echo "</table>\n";
 		//显示页码

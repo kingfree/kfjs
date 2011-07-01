@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2011 年 05 月 27 日 20:48
+-- 生成日期: 2011 年 07 月 01 日 19:42
 -- 服务器版本: 5.1.54
 -- PHP 版本: 5.3.5-1ubuntu7.2
 
@@ -16,27 +16,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- 数据库: `jol`
+-- 数据库: `kfjs`
 --
-
--- --------------------------------------------------------
-
---
--- 表的结构 `compileinfo`
---
-
-CREATE TABLE IF NOT EXISTS `compileinfo` (
-  `solution_id` int(11) NOT NULL DEFAULT '0',
-  `error` text,
-  PRIMARY KEY (`solution_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `compileinfo`
---
-
-INSERT INTO `compileinfo` (`solution_id`, `error`) VALUES
-(1024, 'Main.cc: In function ''int main()'':\nMain.cc:4:2: error: ''cin'' was not declared in this scope\nMain.cc:6:3: error: ''cout'' was not declared in this scope\n');
 
 -- --------------------------------------------------------
 
@@ -104,27 +85,6 @@ CREATE TABLE IF NOT EXISTS `group` (
 INSERT INTO `group` (`gid`, `group_name`, `admin`, `group_user`, `comment`) VALUES
 (0, '注册用户', 1, '0,1,2,3,4,5,6,7,8', '该站点的注册用户\r\n'),
 (1, '管理员', 1, '0', '该站点的管理员用户\r\n');
-
--- --------------------------------------------------------
-
---
--- 表的结构 `judger`
---
-
-CREATE TABLE IF NOT EXISTS `judger` (
-  `jid` int(10) NOT NULL DEFAULT '0',
-  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `enabled` int(2) NOT NULL,
-  `memo` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`jid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='评测机';
-
---
--- 转存表中的数据 `judger`
---
-
-INSERT INTO `judger` (`jid`, `address`, `enabled`, `memo`) VALUES
-(0, 'http://localhost/kjs/judge/', 0, '本地评测机');
 
 -- --------------------------------------------------------
 
@@ -230,7 +190,12 @@ INSERT INTO `loginlog` (`user_id`, `password`, `ip`, `time`) VALUES
 ('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-05-26 19:06:39'),
 ('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-05-27 16:52:57'),
 ('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-05-27 18:50:43'),
-('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-05-27 20:16:22');
+('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-05-27 20:16:22'),
+('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-06-22 21:14:21'),
+('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-06-28 21:56:36'),
+('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-06-29 15:03:44'),
+('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-06-30 17:46:21'),
+('Kingfree', '6455571dcc821cf127737e81ebd38776', '127.0.0.1', '2011-06-30 20:18:55');
 
 -- --------------------------------------------------------
 
@@ -364,7 +329,7 @@ CREATE TABLE IF NOT EXISTS `problem` (
 
 INSERT INTO `problem` (`problem_id`, `title`, `description`, `input`, `output`, `sample_input`, `sample_output`, `input_template`, `output_template`, `answer_template`, `hint`, `source`, `in_date`, `time_limit`, `memory_limit`, `program_filename`, `program_type`, `start_num`, `end_num`, `English`, `compare_type`, `defunct`, `accepted`, `submit`, `solved`) VALUES
 (0, '你好，世界', '<p>输出&ldquo;hello, world&rdquo;</p>\r\n<p></p>', '<p>无</p>\r\n<p></p>', '<p>一行，只有&ldquo;hello, world&rdquo;，注意空格。</p>\r\n<p></p>', '', 'hello, world', '0', '', 'file#.ans', '', '', '2011-04-20 12:21:46', 1, 32, 'hello.pas/c/cpp', 0, 0, 0, 'stdout', 0, 'N', 3, 3, 0),
-(1, 'A+B 问题', '<p>计算两个整数a,b的和。</p>', '<p>两个整数 a,b (0&lt;=a,b&lt;=10)。</p>', '<p>输出 &nbsp;a+b 。</p>', '1 2', '3', 'aplusb#.in', 'aplusb$.out', 'aplusb#.ans', '<p>很简单。</p>\r\n<h2>这里写评测系统使用方法（未完成）！</h2>', 'POJ', '2011-05-26 18:22:55', 1, 10, 'aplusb', 0, 0, 9, 'A Plus B', 0, 'N', 2, 2, 0),
+(1, 'A+B 问题', '<p>计算两个整数a,b的和。</p>', '<p>两个整数 a,b (0&lt;=a+b&lt;=32767)。</p>', '<p>输出 &nbsp;a+b 。</p>', '1 2', '3', 'aplusb#.in', 'aplusb.out', 'aplusb#.ans', '<p>很简单。</p>\r\n<h2>这里写评测系统使用方法（未完成）！</h2>', 'POJ', '2011-05-26 18:22:55', 1, 10, 'aplusb', 0, 0, 9, 'A Plus B', 0, 'N', 0, 0, 0),
 (7, '采油区域', '<p>Siruseri政府决定将石油资源丰富的Navalur省的土地拍卖给私人承包商以建立油井。被拍卖的整块土地为一个矩形区域，被划分为M&times;N个小块。 Siruseri地质调查局有关于Navalur土地石油储量的估测数据。这些数据表示为M&times;N个正整数，即对每一小块土地石油储量的估计值。 为了避免出现垄断，政府规定每一个承包商只能承包一个由K&times;K块相连的土地构成的正方形区域。 AoE石油联合公司由三个承包商组成，他们想选择三块互不相交的K&times;K的区域使得总的收益最大。 例如，假设石油储量的估计值如下：</p>\n<p><img width="276" height="231" src="/hustoj/web/admin/../upload/pimg1070_1.png" alt="" /></p>\n<p><br />\n如果K = 2, AoE公司可以承包的区域的石油储量总和为100, 如果K = 3, AoE公司可以承包的区域的石油储量总和为208。 AoE公司雇佣你来写一个程序，帮助计算出他们可以承包的区域的石油储量之和的最大值。</p>\n<p></p>\n<p>数据保证K&le;M且K&le;N并且至少有三个K&times;K的互不相交的正方形区域。其中30%的输入数据，M, N&le; 12。所有的输入数据, M, N&le; 1500。每一小块土地的石油储量的估计值是非负整数且&le; 500。</p>', '<p>输入第一行包含三个整数M, N, K，其中M和N是矩形区域的行数和列数，K是每一个承包商承包的正方形的大小（边长的块数）。接下来M行，每行有N个正整数表示这一行每一小块土地的石油储量的估计值。</p>', '<p>输出只包含一个正整数，表示AoE公司可以承包的区域的石油储量之和的最大值。</p>', '9 9 3 \n1 1 1 1 1 1 1 1 1 \n1 1 1 1 1 1 1 1 1 \n1 8 8 8 8 8 1 1 1 \n1 8 8 8 8 8 1 1 1 \n1 8 8 8 8 8 1 1 1 \n1 1 1 1 8 8 8 1 1 \n1 1 1 1 1 1 8 8 8 \n1 1 1 1 1 1 9 9 9 \n1 1 1 1 1 1 9 9 9', '208', '0', '', 'file#.ans', '', 'APIO2009', '2011-05-27 17:02:17', 1, 128, 'filename', 0, 0, 9, 'English', 0, 'N', 0, 0, 0),
 (8, '会议中心', '<p>Siruseri政府建造了一座新的会议中心。许多公司对租借会议中心的会堂很感兴趣，他们希望能够在里面举行会议。 对于一个客户而言，仅当在开会时能够独自占用整个会堂，他才会租借会堂。会议中心的销售主管认为：最好的策略应该是将会堂租借给尽可能多的客户。显然，有可能存在不止一种满足要求的策略。 例如下面的例子。总共有4个公司。他们对租借会堂发出了请求，并提出了他们所需占用会堂的起止日期（如下表所示）。</p>\n<p><img width="348" height="145" src="/hustoj/web/admin/../upload/pimg1071_1.png" alt="" /></p>\n<p>上例中，最多将会堂租借给两家公司。租借策略分别是租给公司1和公司3，或是公司2和公司3，也可以是公司1和公司4。注意会议中心一天最多租借给一个公司，所以公司1和公司2不能同时租借会议中心，因为他们在第九天重合了。<br />\n销售主管为了公平起见，决定按照如下的程序来确定选择何种租借策略：首先，将租借给客户数量最多的策略作为候选，将所有的公司按照他们发出请求的顺序编号。对于候选策略，将策略中的每家公司的编号按升序排列。最后，选出其中字典序最小1的候选策略作为最终的策略。 例中，会堂最终将被租借给公司1和公司3：3个候选策略是{(1,3),(2,3),(1,4)}。而在字典序中(1,3)&lt;(1,4)&lt;(2,3)。 你的任务是帮助销售主管确定应该将会堂租借给哪些公司。</p>\n<p>对于50%的输入，N&le;3000。在所有输入中，N&le;200000。</p>\n<p></p>\n<p>-------------------</p>\n<p>1 字典序指在字典中排列的顺序，如果序列l1是序列l2的前缀，或者对于l1和l2的第一个不同位置j，l1[j]&lt;l2[j]，则l1比l2小。</p>', '<p>输入的第一行有一个整数N，表示发出租借会堂申请的公司的个数。第2到第N+1行每行有2个整数。第i+1行的整数表示第i家公司申请租借的起始和终止日期。对于每个公司的申请，起始日期为不小于1的整数，终止日期为不大于109的整数。</p>', '<p>输出的第一行应有一个整数M，表示最多可以租借给多少家公司。第二行应列出M个数，表示最终将会堂租借给哪些公司。</p>', '4\n4 9\n9 11\n13 19\n10 17\n', '2\n1 3\n', '0', '', 'file#.ans', '', 'APIO2009', '2011-05-27 17:02:18', 1, 128, 'filename', 0, 0, 9, 'English', 0, 'N', 0, 0, 0),
 (2, '向量', '<p>给你一对数a,b，你可以任意使用(a,b), (a,-b), (-a,b), (-a,-b), (b,a), (b,-a), (-b,a), (-b,-a)这些向量，问你能不能拼出另一个向量(x,y)。</p>\r\n<p>说明：这里的拼就是使得你选出的向量之和为(x,y)</p>', '<p>第一行数组组数t，(t&lt;=50000)</p>\r\n<p>接下来t行每行四个整数a,b,x,y (-2*109&lt;=a,b,x,y&lt;=2*109)</p>', 't行\r\n每行为Y或者为N，分别表示可以拼出来，不能拼出来', '3\r\n2 1 3 3\r\n1 1 0 1\r\n1 0 -2 3\r\n', 'Y\r\nN\r\nY\r\n', 'vector#.in', 'vector#.out', 'vector#.ans', '<p>样例解释：</p>\r\n<p>第一组：(2,1)+(1,2)=(3,3)</p>\r\n<p>第三组：(-1,0)+(-1,0)+(0,1)+(0,1)+(0,1)=(-2,3)</p>', 'HAOI', '2011-05-26 18:20:35', 1, 256, 'vector', 0, 0, 9, 'Vector', 0, 'N', 7, 10, 0),
@@ -372,7 +337,10 @@ INSERT INTO `problem` (`problem_id`, `title`, `description`, `input`, `output`, 
 (4, '测试添加', 'tt.out', '0', '1', '1', '128', '', '', 'file#.ans', '', '', '2011-04-23 19:49:48', 0, 0, 'a.pas/c/cpp', 0, 0, 0, 'stdout', 0, 'Y', 0, 0, 0),
 (5, '测试添加', 'fengle', '1', 'fengle.in', 'fengle.out', '0', '', '', 'file#.ans', '', '', '2011-04-23 19:51:53', 1, 128, 'a.pas/c/cpp', 0, 0, 0, 'stdout', 0, 'Y', 0, 0, 0),
 (6, '机器翻译', '<p>小晨的电脑上安装了一个机器翻译软件，他经常用这个软件来翻译英语文章。\r\n这个翻译软件的原理很简单，它只是从头到尾，依次将每个英文单词用对应的中文含义\r\n来替换。对于每个英文单词，软件会先在内存中查找这个单词的中文含义，如果内存中有，\r\n软件就会用它进行翻译；如果内存中没有，软件就会在外存中的词典内查找，查出单词的中\r\n文含义然后翻译，并将这个单词和译义放入内存，以备后续的查找和翻译。\r\n假设内存中有M 个单元，每单元能存放一个单词和译义。每当软件将一个新单词存入\r\n内存前，如果当前内存中已存入的单词数不超过M−1，软件会将新单词存入一个未使用的\r\n内存单元；若内存中已存入M 个单词，软件会清空最早进入内存的那个单词，腾出单元来，\r\n存放新单词。</p>\r\n<p>假设一篇英语文章的长度为N 个单词。给定这篇待译文章，翻译软件需要去外存查找多\r\n少次词典？假设在翻译开始前，内存中没有任何单词。</p>', '<p>输入文件名为translate.in，输入文件共2 行。每行中两个数之间用一个空格隔开。</p>\r\n<p>第一行为两个正整数M 和N，代表内存容量和文章的长度。</p>\r\n<p>第二行为N 个非负整数，按照文章的顺序，每个数（大小不超过1000）代表一个英文单词。文章中两个单词是同一个单词，当且仅当它们对应的非负整数相同。</p>', '<p>输出文件translate.out 共1 行，包含一个整数，为软件需要查词典的次数。</p>', '【输入样例1】\r\n3 7\r\n1 2 1 5 4 4 1\r\n【输入样例2】\r\n2 10\r\n8 824 11 78 11 78 11 78 8 264', '【输出样例1】\r\n5\r\n\r\n【输出样例2】\r\n6', 'translate#.in', 'translate#.out', 'translate#.ans', '<p>【输入输出样例 1 说明】</p>\r\n<p>整个查字典过程如下：</p>\r\n<p>每行表示一个单词的翻译，冒号前为本次翻译后的内存状况：</p>\r\n<ol start="0">\r\n<li>空：内存初始状态为空。</li>\r\n<li>1：查找单词1 并调入内存。</li>\r\n<li>1 2：查找单词2 并调入内存。</li>\r\n<li>1 2：在内存中找到单词1。</li>\r\n<li>1 2 5：查找单词5 并调入内存。</li>\r\n<li>2 5 4：查找单词4 并调入内存替代单词1。</li>\r\n<li>2 5 4：在内存中找到单词4。</li>\r\n<li>5 4 1：查找单词1 并调入内存替代单词2。</li>\r\n</ol>\r\n共计查了5 次词典。<p></p>\r\n<p>【数据范围】</p>\r\n<p>对于10%的数据有M=1，N≤ 5。</p>\r\n<p>对于100%的数据有0&lt;m≤ 100，0&lt;n≤1000 。</p>', 'NOIP', '2011-05-26 17:41:07', 1, 128, 'translate', 0, 1, 10, 'Translate', 0, 'N', 0, 0, 0),
-(9, '抢掠计划', '<p>Siruseri城中的道路都是单向的。不同的道路由路口连接。按照法律的规定，在每个路口都设立了一个Siruseri银行的ATM取款机。令人奇怪的是，Siruseri的酒吧也都设在路口，虽然并不是每个路口都设有酒吧。 Banditji计划实施Siruseri有史以来最惊天动地的ATM抢劫。他将从市中心出发，沿着单向道路行驶，抢劫所有他途径的ATM机，最终他将在一个酒吧庆祝他的胜利。 使用高超的黑客技术，他获知了每个ATM机中可以掠取的现金数额。他希望你帮助他计算从市中心出发最后到达某个酒吧时最多能抢劫的现金总数。他可以经过同一路口或道路任意多次。但只要他抢劫过某个ATM机后，该ATM机里面就不会再有钱了。 例如，假设该城中有6个路口，道路的连接情况如下图所示：</p>\n<p></p>\n<p><img width="478" height="184" src="/hustoj/web/admin/../upload/pimg1072_1.png" alt="" /></p>\n<p>市中心在路口1，由一个入口符号&rarr;来标识，那些有酒吧的路口用双圈来表示。每个ATM机中可取的钱数标在了路口的上方。在这个例子中，Banditji能抢劫的现金总数为47，实施的抢劫路线是：1-2-4-1-2-3-5。</p>\n<p>50%的输入保证N, M&lt;=3000。所有的输入保证N, M&lt;=500000。每个ATM机中可取的钱数为一个非负整数且不超过4000。输入数据保证你可以从市中心沿着Siruseri的单向的道路到达其中的至少一个酒吧。</p>', '<p>第一行包含两个整数N、M。N表示路口的个数，M表示道路条数。接下来M行，每行两个整数，这两个整数都在1到N之间，第i+1行的两个整数表示第i条道路的起点和终点的路口编号。接下来N行，每行一个整数，按顺序表示每个路口处的ATM机中的钱数。接下来一行包含两个整数S、P，S表示市中心的编号，也就是出发的路口。P表示酒吧数目。接下来的一行中有P个整数，表示P个有酒吧的路口的编号。</p>', '<p>输出一个整数，表示Banditji从市中心开始到某个酒吧结束所能抢劫的最多的现金总数。</p>', '6 7\n1 2\n2 3\n3 5\n2 4\n4 1\n2 6\n6 5\n10\n12\n8\n16\n1\n5\n1 4\n4 3 5 6', '47\n', '0', '', 'file#.ans', '', 'APIO2009', '2011-05-27 17:02:18', 1, 128, 'filename', 0, 0, 9, 'English', 0, 'N', 0, 0, 0);
+(9, '抢掠计划', '<p>Siruseri城中的道路都是单向的。不同的道路由路口连接。按照法律的规定，在每个路口都设立了一个Siruseri银行的ATM取款机。令人奇怪的是，Siruseri的酒吧也都设在路口，虽然并不是每个路口都设有酒吧。 Banditji计划实施Siruseri有史以来最惊天动地的ATM抢劫。他将从市中心出发，沿着单向道路行驶，抢劫所有他途径的ATM机，最终他将在一个酒吧庆祝他的胜利。 使用高超的黑客技术，他获知了每个ATM机中可以掠取的现金数额。他希望你帮助他计算从市中心出发最后到达某个酒吧时最多能抢劫的现金总数。他可以经过同一路口或道路任意多次。但只要他抢劫过某个ATM机后，该ATM机里面就不会再有钱了。 例如，假设该城中有6个路口，道路的连接情况如下图所示：</p>\n<p></p>\n<p><img width="478" height="184" src="/hustoj/web/admin/../upload/pimg1072_1.png" alt="" /></p>\n<p>市中心在路口1，由一个入口符号&rarr;来标识，那些有酒吧的路口用双圈来表示。每个ATM机中可取的钱数标在了路口的上方。在这个例子中，Banditji能抢劫的现金总数为47，实施的抢劫路线是：1-2-4-1-2-3-5。</p>\n<p>50%的输入保证N, M&lt;=3000。所有的输入保证N, M&lt;=500000。每个ATM机中可取的钱数为一个非负整数且不超过4000。输入数据保证你可以从市中心沿着Siruseri的单向的道路到达其中的至少一个酒吧。</p>', '<p>第一行包含两个整数N、M。N表示路口的个数，M表示道路条数。接下来M行，每行两个整数，这两个整数都在1到N之间，第i+1行的两个整数表示第i条道路的起点和终点的路口编号。接下来N行，每行一个整数，按顺序表示每个路口处的ATM机中的钱数。接下来一行包含两个整数S、P，S表示市中心的编号，也就是出发的路口。P表示酒吧数目。接下来的一行中有P个整数，表示P个有酒吧的路口的编号。</p>', '<p>输出一个整数，表示Banditji从市中心开始到某个酒吧结束所能抢劫的最多的现金总数。</p>', '6 7\n1 2\n2 3\n3 5\n2 4\n4 1\n2 6\n6 5\n10\n12\n8\n16\n1\n5\n1 4\n4 3 5 6', '47\n', '0', '', 'file#.ans', '', 'APIO2009', '2011-05-27 17:02:18', 1, 128, 'filename', 0, 0, 9, 'English', 0, 'N', 0, 0, 0),
+(10, '跳马问题', '有一只中国象棋中的马，在半张棋盘的左上角出发，向右下角跳去。规定只许向右跳（可上，可下，但不允许向左跳）。请编程求从起点 A(1,1) 到终点 B(m,n) 共有多少种不同跳法。', '输入文件只有一行，两个整数m和n，两个数之间有一个空格。', '输出文件只有一个数据，即从 A 到 B 全部的走法', '5 9\r\n', '37\r\n', 'horse#.in', 'horse.out', 'horse#.ans', '搜索', '', '2011-06-28 21:58:28', 1, 128, 'file', 0, 1, 10, 'Horse Problem', 0, 'N', 0, 0, 0),
+(11, 'N皇后问题', '八皇后问题是一个以国际象棋为背景的问题：如何能够在 8×8 的国际象棋棋盘上放置八个皇后，使得任何一个皇后都无法直接吃掉其他的皇后？为了达到此目的，任两个皇后都不能处于同一条横行、纵行或斜线上。八皇后问题可以推广为更一般的n皇后摆放问题：这时棋盘的大小变为n×n，而皇后个数也变成n。当且仅当 n = 1 或 n ≥ 4 时问题有解。', '一个数n，表示棋盘大小为n*n，有n个皇后。', '只有一个数字，为解的个数。当没有解时输出0。', '8\r\n', '92\r\n', 'queen#.in', 'queen.out', 'queen#.ans', '现在还没有已知公式可以对 n 计算 n 皇后问题的解的个数。', '经典', '2011-06-29 15:12:03', 2, 128, 'queen', 0, 1, 10, 'N Queens Problem', 0, 'N', 0, 0, 0),
+(12, '一元多项式相加', '<p>一元多项式相加的运算规则很简单：两个多项式中所有指数相同的项，对应系数相加，若和不为零，则构成"和多项式"中的一项；所有指数不同的项均复抄到"和多项式"中。</p>', '<p>输入由两行组成：</p>\r\n<p>第一行有一个字符串p（1≤length(p)≤200）表示多项式1</p>\r\n<p>第二行有一个字符串q（1≤length(q)≤200）表示多项式2</p>', '<p>输出有一行，为字符串s（1≤length(q)≤500)，表示和多项式</p>', '2x+3x^2+x^7-5x^90\r\n4x+x^3\r\n', '6x+3x^2+x^3+x^7-5x^90\r\n', 'oneploy#.in', 'oneploy.out', 'oneploy#.ans', '<p>注：表达式中系数与x间的乘号均省略，^表示幂。</p>', '经典', '2011-06-30 17:49:41', 1, 128, 'oneploy', 0, 1, 10, '一元多项式相加', 0, 'N', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -402,103 +370,36 @@ INSERT INTO `reply` (`rid`, `author_id`, `time`, `content`, `topic_id`, `status`
 -- --------------------------------------------------------
 
 --
--- 表的结构 `sim`
+-- 表的结构 `submit`
 --
 
-CREATE TABLE IF NOT EXISTS `sim` (
-  `s_id` int(11) NOT NULL,
-  `sim_s_id` int(11) DEFAULT NULL,
-  `sim` int(11) DEFAULT NULL,
-  PRIMARY KEY (`s_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `submit` (
+  `jid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `cid` int(11) DEFAULT NULL,
+  `uid` varchar(100) NOT NULL,
+  `judged` tinyint(1) NOT NULL DEFAULT '0',
+  `langtype` int(11) NOT NULL,
+  `result` int(11) NOT NULL,
+  `detail` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `score` int(11) NOT NULL,
+  `runtime` int(11) DEFAULT NULL,
+  `memory` int(11) DEFAULT NULL,
+  `ip` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `submit_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `judge_time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`jid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `sim`
+-- 转存表中的数据 `submit`
 --
 
-
--- --------------------------------------------------------
-
---
--- 表的结构 `solution`
---
-
-CREATE TABLE IF NOT EXISTS `solution` (
-  `solution_id` int(11) NOT NULL AUTO_INCREMENT,
-  `problem_id` int(11) NOT NULL DEFAULT '0',
-  `user_id` char(20) NOT NULL DEFAULT '',
-  `time` int(11) NOT NULL DEFAULT '0',
-  `memory` int(11) NOT NULL DEFAULT '0',
-  `in_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `result` smallint(6) NOT NULL DEFAULT '0',
-  `language` tinyint(4) NOT NULL DEFAULT '0',
-  `ip` char(15) NOT NULL DEFAULT '',
-  `contest_id` int(11) DEFAULT NULL,
-  `valid` tinyint(4) NOT NULL DEFAULT '1',
-  `num` tinyint(4) NOT NULL DEFAULT '-1',
-  `code_length` int(11) NOT NULL DEFAULT '0',
-  `judgetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`solution_id`),
-  KEY `uid` (`user_id`),
-  KEY `pid` (`problem_id`),
-  KEY `res` (`result`),
-  KEY `cid` (`contest_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1030 ;
-
---
--- 转存表中的数据 `solution`
---
-
-INSERT INTO `solution` (`solution_id`, `problem_id`, `user_id`, `time`, `memory`, `in_date`, `result`, `language`, `ip`, `contest_id`, `valid`, `num`, `code_length`, `judgetime`) VALUES
-(0, 0, 'Kingfree', 0, 0, '2011-04-20 12:20:14', 4, 1, '127.0.0.1', NULL, 1, -1, 111, '2011-04-20 12:25:28'),
-(1029, 1000, 'lidong', 0, 0, '2011-05-05 11:15:47', 4, 5, '127.0.0.1', NULL, 1, -1, 21, '2011-05-05 11:15:49'),
-(1028, 1061, 'lidong', 0, 268, '2011-05-05 11:14:44', 4, 2, '127.0.0.1', NULL, 1, -1, 95, '2011-05-05 11:14:48'),
-(1027, 1062, 'Kingfree', 88, 836, '2011-04-30 01:33:31', 6, 1, '127.0.0.1', NULL, 1, -1, 1004, '2011-04-30 01:33:33'),
-(1026, 1062, 'Kingfree', 536, 836, '2011-04-25 13:22:28', 4, 1, '127.0.0.1', NULL, 1, -1, 939, '2011-04-25 13:22:34'),
-(1025, 1062, 'Test', 4, 1328, '2011-04-24 13:38:41', 6, 1, '127.0.0.1', 1000, 1, 0, 142, '2011-04-24 13:38:48'),
-(1024, 1062, 'Test', 0, 0, '2011-04-24 13:38:10', 11, 1, '127.0.0.1', 1000, 1, 0, 118, '2011-04-24 13:38:16'),
-(1023, 1062, 'Kingfree', 548, 836, '2011-04-24 12:55:38', 4, 1, '127.0.0.1', 1000, 1, 0, 939, '2011-04-24 12:55:40'),
-(1022, 1062, 'Kingfree', 556, 836, '2011-04-24 12:48:10', 4, 1, '127.0.0.1', NULL, 1, -1, 941, '2011-04-24 12:48:13'),
-(1021, 1062, 'Kingfree', 536, 836, '2011-04-23 20:43:08', 4, 1, '127.0.0.1', NULL, 1, -1, 945, '2011-04-23 20:43:15'),
-(1020, 1062, 'Kingfree', 540, 836, '2011-04-23 20:40:58', 4, 1, '127.0.0.1', NULL, 1, -1, 938, '2011-04-23 20:41:03'),
-(1019, 1062, 'Kingfree', 560, 836, '2011-04-23 20:33:43', 4, 1, '127.0.0.1', NULL, 1, -1, 894, '2011-04-23 20:33:46'),
-(1018, 1062, 'Kingfree', 520, 836, '2011-04-23 15:31:37', 4, 1, '127.0.0.1', NULL, 1, -1, 1147, '2011-04-23 15:31:43'),
-(1017, 1000, 'aaa', 0, 0, '2011-04-22 22:54:58', 4, 5, '127.0.0.1', NULL, 1, -1, 21, '2011-04-22 22:54:59'),
-(1016, 1061, 'Kingfree', 0, 836, '2011-04-22 18:48:19', 4, 0, '127.0.0.1', NULL, 1, -1, 115, '2011-04-22 18:48:22');
-
--- --------------------------------------------------------
-
---
--- 表的结构 `source_code`
---
-
-CREATE TABLE IF NOT EXISTS `source_code` (
-  `solution_id` int(11) NOT NULL,
-  `source` text NOT NULL,
-  `filename` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`solution_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `source_code`
---
-
-INSERT INTO `source_code` (`solution_id`, `source`, `filename`) VALUES
-(1000, '#include <iostream>\r\nusing namespace std;\r\nint main() {\r\n	cout << "hello, world\\n";\r\n	return 0;\r\n}', NULL),
-(1026, '#include <cstdio>\r\n#define abs(a) ((a)<0?-(a):(a))\r\nint gcd(int a, int b) {\r\n	int c = a%b;\r\n	for(; c; ) {\r\n		a = b;\r\n		b = c;\r\n		c = a%b;\r\n	}\r\n	return b;\r\n}\r\nbool work() {\r\n	int a, b, x1, y1;\r\n	int x, y;\r\n	scanf("%d%d%d%d", &a, &b, &x, &y);\r\n	x = abs(x);\r\n	y = abs(y);\r\n	if(a==0 || b==0)\r\n		return !(x%(a+b)||y%(a+b));\r\n	if(a==b)\r\n		return y%a==0 && x%a==0 && (((x/a)%2)^((y/a)%2))==0;\r\n	for(; !(a%2) && !(b%2); a/=2, b/=2, x/=2, y/=2)\r\n		if((x%2) || (y%2))\r\n			return false;\r\n	if((a%2) && (b%2) && ((x%2)^(y%2)))\r\n		return false;\r\n	if((a%2) && (b%2)) {\r\n		x1 = a;\r\n		y1 = b;\r\n		a = (x1+y1)/2;\r\n		b = abs(x1-y1)/2;\r\n		x1 = x;\r\n		y1 = y;\r\n		x = (x1+y1)/2;\r\n		y = abs(x1-y1)/2;\r\n	}\r\n	int c = gcd(a, b);\r\n	return x%c==0 && y%c==0;\r\n}\r\nint main() {\r\n	int n;\r\n	scanf("%d", &n);\r\n	for(; n; n--)\r\n		printf("%c\\n", work()?''Y'':''N'');\r\n	return 0;\r\n}', NULL),
-(1024, '#include <iostream>\r\nint main() {\r\n	int n;\r\n	cin >> n;\r\n	for(;n;n--)\r\n		cout << "N\\n";\r\n	return 0;\r\n}', NULL),
-(1025, '#include <iostream>\r\nusing namespace std;\r\nint main() {\r\n	int n;\r\n	cin >> n;\r\n	for(;n;n--)\r\n		cout << "N\\n";\r\n	return 0;\r\n}', NULL),
-(1023, '#include <cstdio>\r\n#define abs(a) ((a)<0?-(a):(a))\r\nint gcd(int a, int b) {\r\n	int c = a%b;\r\n	for(; c; ) {\r\n		a = b;\r\n		b = c;\r\n		c = a%b;\r\n	}\r\n	return b;\r\n}\r\nbool work() {\r\n	int a, b, x1, y1;\r\n	int x, y;\r\n	scanf("%d%d%d%d", &a, &b, &x, &y);\r\n	x = abs(x);\r\n	y = abs(y);\r\n	if(a==0 || b==0)\r\n		return !(x%(a+b)||y%(a+b));\r\n	if(a==b)\r\n		return y%a==0 && x%a==0 && (((x/a)%2)^((y/a)%2))==0;\r\n	for(; !(a%2) && !(b%2); a/=2, b/=2, x/=2, y/=2)\r\n		if((x%2) || (y%2))\r\n			return false;\r\n	if((a%2) && (b%2) && ((x%2)^(y%2)))\r\n		return false;\r\n	if((a%2) && (b%2)) {\r\n		x1 = a;\r\n		y1 = b;\r\n		a = (x1+y1)/2;\r\n		b = abs(x1-y1)/2;\r\n		x1 = x;\r\n		y1 = y;\r\n		x = (x1+y1)/2;\r\n		y = abs(x1-y1)/2;\r\n	}\r\n	int c = gcd(a, b);\r\n	return x%c==0 && y%c==0;\r\n}\r\nint main() {\r\n	int n;\r\n	scanf("%d", &n);\r\n	for(; n; n--)\r\n		printf("%c\\n", work()?''Y'':''N'');\r\n	return 0;\r\n}', NULL),
-(1022, '#include <cstdio>\r\n#define abs(a) ((a)<0?-(a):(a))\r\nint gcd(int a, int b) {\r\n	int c = a%b;\r\n	for(; c; ) {\r\n		a = b;\r\n		b = c;\r\n		c = a%b;\r\n	}\r\n	return b;\r\n}\r\nbool work() {\r\n	int a, b, x1, y1;\r\n	int x, y;\r\n	scanf("%d%d%d%d", &a, &b, &x, &y);\r\n	x = abs(x);\r\n	y = abs(y);\r\n	if(a==0 || b==0)\r\n		return !(x%(a+b)||y%(a+b));\r\n	if(a==b)\r\n		return y%a==0 && x%a==0 && (((x/a)%2)^((y/a)%2))==0;\r\n	for(; !(a%2) && !(b%2); a/=2, b/=2, x/=2, y/=2)\r\n		if((x%2) || (y%2))\r\n			return false;\r\n	if((a%2) && (b%2) && ((x%2)^(y%2)))\r\n		return false;\r\n	if(((a%2) && (b%2))) {\r\n		x1 = a;\r\n		y1 = b;\r\n		a = (x1+y1)/2;\r\n		b = abs(x1-y1)/2;\r\n		x1 = x;\r\n		y1 = y;\r\n		x = (x1+y1)/2;\r\n		y = abs(x1-y1)/2;\r\n	}\r\n	int c = gcd(a, b);\r\n	return x%c==0 && y%c==0;\r\n}\r\nint main() {\r\n	int n;\r\n	scanf("%d", &n);\r\n	for(; n; n--)\r\n		printf("%c\\n", work()?''Y'':''N'');\r\n	return 0;\r\n}', NULL),
-(1021, '#include <cstdio>\r\n#define abs(a) ((a)<0?-(a):(a))\r\nint gcd(int a, int b) {\r\n	int c = a%b;\r\n	for(; c; ) {\r\n		a = b;\r\n		b = c;\r\n		c = a%b;\r\n	}\r\n	return b;\r\n}\r\nbool work() {\r\n	int a, b, x1, y1;\r\n	int x, y;\r\n	scanf("%d%d%d%d", &a, &b, &x, &y);\r\n	x = abs(x);\r\n	y = abs(y);\r\n	if(a==0 || b==0)\r\n		return !(x%(a+b)||y%(a+b));\r\n	if(a==b)\r\n		return y%a==0 && x%a==0 && (((x/a)&1)^((y/a)&1))==0;\r\n	for(; !(a&1) && !(b&1); a>>=1, b>>=1, x>>=1, y>>=1)\r\n		if((x&1) || (y&1))\r\n			return false;\r\n	if((a&1) && (b&1) && ((x&1)^(y&1)))\r\n		return false;\r\n	if(((a&1) && (b&1))) {\r\n		x1 = a;\r\n		y1 = b;\r\n		a = (x1+y1)/2;\r\n		b = abs(x1-y1)/2;\r\n		x1 = x;\r\n		y1 = y;\r\n		x = (x1+y1)/2;\r\n		y = abs(x1-y1)/2;\r\n	}\r\n	int c = gcd(a, b);\r\n	return x%c==0 && y%c==0;\r\n}\r\nint main() {\r\n	int n;\r\n	scanf("%d", &n);\r\n	for(; n; n--)\r\n		printf("%c\\n", work()?''Y'':''N'');\r\n	return 0;\r\n}', NULL),
-(1020, '#include <cstdio>\r\n#define abs(a) ((a)<0?-(a):(a))\r\nint gcd(int a, int b) {\r\n	int c = a%b;\r\n	for(; c; ) {\r\n		a = b;\r\n		b = c;\r\n		c = a%b;\r\n	}\r\n	return b;\r\n}\r\nbool work() {\r\n	int a, b, x1, y1;\r\n	int x, y;\r\n	scanf("%d%d%d%d", &a, &b, &x, &y);\r\n	x = abs(x);\r\n	y = abs(y);\r\n	if(a==0 || b==0)\r\n		return !(x%(a+b)||y%(a+b));\r\n	if(a==b)\r\n		return y%a==0 && x%a==0 && (((x/a)&1)^((y/a)&1))==0;\r\n	for(; !(a&1) && !(b&1); a>>=1, b>>=1, x>>=1, y>>=1)\r\n		if((x&1) || (y&1))\r\n			return false;\r\n	if((a&1) && (b&1) && ((x&1)^(y&1)))\r\n		return false;\r\n	if(((a&1) && (b&1))) {\r\n		x1 = a;\r\n		y1 = b;\r\n		a = (x1+y1)/2;\r\n		b = abs(x1-y1)/2;\r\n		x1 = x;\r\n		y1 = y;\r\n		x = (x1+y1)/2;\r\n		y = abs(x1-y1)/2;\r\n	}\r\n	return x%gcd(a, b)==0 && y%gcd(a, b)==0;\r\n}\r\nint main() {\r\n	int n;\r\n	scanf("%d", &n);\r\n	for(; n; n--)\r\n		printf("%c\\n", work()?''Y'':''N'');\r\n	return 0;\r\n}', NULL),
-(1019, '#include <cstdio>\r\n#define abs(a) ((a)<0?-(a):(a))\r\nint gcd(int a,int b) {\r\n	int c=a%b;\r\n	for(;c;) {\r\n		a=b;\r\n		b=c;\r\n		c=a%b;\r\n	}\r\n	return b;\r\n}\r\nbool work() {\r\n	int a,b,x1,y1;\r\n	int x,y;\r\n	int i,j;\r\n	scanf("%d%d%d%d",&a,&b,&x,&y);\r\n	x=abs(x);\r\n	y=abs(y);\r\n	if(a==0||b==0)\r\n		return !(x%(a+b)||y%(a+b));\r\n	if(a==b)\r\n		return y%a==0&&x%a==0&&(((x/a)&1)^((y/a)&1))==0;\r\n	for(;!(a&1)&&!(b&1);a>>=1,b>>=1,x>>=1,y>>=1)\r\n		if((x&1)||(y&1))\r\n			return false;\r\n	if((a&1)&&(b&1)&&((x&1)^(y&1)))\r\n		return false;\r\n	if(((a&1)&&(b&1))) {\r\n		x1=a;\r\n		y1=b;\r\n		a=(x1+y1)/2;\r\n		b=abs(x1-y1)/2;\r\n		x1=x;\r\n		y1=y;\r\n		x=(x1+y1)/2;\r\n		y=abs(x1-y1)/2;\r\n	}\r\n	return x%gcd(a,b)==0 && y%gcd(a,b)==0;\r\n}\r\nint main() {\r\n	int tot;\r\n	scanf("%d",&tot);\r\n	for(;tot;tot--)\r\n		printf("%c\\n", work()?''Y'':''N'');\r\n	return 0;\r\n}', NULL),
-(1016, '#include <stdio.h>\nvoid main()\n{\n    int a,b,sum;\n    scanf("%d%d",&a,&b);\n    sum=a+b;\n    printf("%d",sum);\n}\n   ', NULL),
-(1017, 'echo "hello, world"', NULL),
-(1018, '#include <stdio.h>\r\n\r\n#define abs(a) ((a)<0?-(a):(a))\r\n\r\nlong gcd(long a,long b)\r\n{\r\n long c=a%b;\r\n for(;c;)\r\n   {\r\n    a=b;\r\n    b=c;\r\n    c=a%b;\r\n   }\r\n return b;\r\n}\r\n\r\nvoid work()\r\n{\r\n long a,b,x1,y1;\r\n long x,y;\r\n long i,j;\r\n \r\n scanf("%ld%ld%ld%ld",&a,&b,&x,&y);\r\n x=abs(x);\r\n y=abs(y);\r\n \r\n if(a==0||b==0)\r\n  {\r\n   printf("%s\\n",x%(a+b)||y%(a+b)?"N":"Y");\r\n   return;\r\n  }\r\n if(a==b)\r\n  {\r\n   printf("%s\\n",y%a==0&&x%a==0&&(((x/a)&1)^((y/a)&1))==0?"Y":"N");\r\n   return;\r\n  }\r\n \r\n for(;!(a&1)&&!(b&1);a>>=1,b>>=1,x>>=1,y>>=1)\r\n   if((x&1)||(y&1))\r\n    {\r\n     printf("N\\n");\r\n     return;\r\n    }\r\n if((a&1)&&(b&1)&&((x&1)^(y&1)))\r\n  {\r\n   printf("N\\n");\r\n   return;\r\n  }\r\n \r\n if(((a&1)&&(b&1)))\r\n  {\r\n   x1=a;\r\n   y1=b;\r\n   a=(x1+y1)/2;\r\n   b=abs(x1-y1)/2;\r\n   x1=x;\r\n   y1=y;\r\n   x=(x1+y1)/2;\r\n   y=abs(x1-y1)/2;\r\n  }\r\n printf("%s\\n",x%gcd(a,b)==0&&y%gcd(a,b)==0?"Y":"N");\r\n}\r\n\r\nint main()\r\n{\r\n long tot;\r\n scanf("%ld",&tot);\r\n for(;tot;tot--)\r\n   work();\r\n return 0;\r\n}', NULL),
-(1027, '#include <cstdio>\r\n#define abs(a) ((a)<0?-(a):(a))\r\nint gcd(int a, int b) {\r\n	/*int c = a%b;\r\n	for(; c; ) {\r\n		a = b;\r\n		b = c;\r\n		c = a%b;\r\n	}\r\n	return b;*/\r\n	if(a==0) return b;\r\n	else if(b!=0) return gcd(b, a%b);\r\n}\r\nbool work() {\r\n	int a, b, x1, y1;\r\n	int x, y;\r\n	scanf("%d%d%d%d", &a, &b, &x, &y);\r\n	x = abs(x);\r\n	y = abs(y);\r\n	if(a==0 || b==0)\r\n		return !(x%(a+b)||y%(a+b));\r\n	if(a==b)\r\n		return y%a==0 && x%a==0 && (((x/a)%2)^((y/a)%2))==0;\r\n	for(; !(a%2) && !(b%2); a/=2, b/=2, x/=2, y/=2)\r\n		if((x%2) || (y%2))\r\n			return false;\r\n	if((a%2) && (b%2) && ((x%2)^(y%2)))\r\n		return false;\r\n	if((a%2) && (b%2)) {\r\n		x1 = a;\r\n		y1 = b;\r\n		a = (x1+y1)/2;\r\n		b = abs(x1-y1)/2;\r\n		x1 = x;\r\n		y1 = y;\r\n		x = (x1+y1)/2;\r\n		y = abs(x1-y1)/2;\r\n	}\r\n	int c = gcd(a, b);\r\n	return x%c==0 && y%c==0;\r\n}\r\nint main() {\r\n	int n;\r\n	scanf("%d", &n);\r\n	for(; n; n--)\r\n		printf("%c\\n", work()?''Y'':''N'');\r\n	return 0;\r\n}', NULL),
-(1028, 'program sss;\r\nvar a,b:longint;\r\nbegin\r\n  read(a);\r\n  read(b);\r\n  write(a+b);\r\n end.', NULL),
-(1029, 'echo "hello, wolrd"', NULL);
+INSERT INTO `submit` (`jid`, `pid`, `cid`, `uid`, `judged`, `langtype`, `result`, `detail`, `score`, `runtime`, `memory`, `ip`, `submit_time`, `judge_time`) VALUES
+(4, 11, 0, 'Kingfree', 0, 0, 0, 'AAAAAAAAAA', 100, 0, 0, '0.0.0.0', '2011-06-30 09:11:14', '2011-06-30 21:11:15'),
+(3, 1, 0, 'Kingfree', 0, 0, 0, 'AAAAAAAAAA', 100, 0, 0, '0.0.0.0', '2011-06-30 09:06:31', '2011-06-30 21:06:33'),
+(2, 1, 0, 'Kingfree', 0, 0, 0, 'AAAAAAAAAA', 100, 0, 0, '0.0.0.0', '2011-06-30 09:03:56', '2011-06-30 21:03:58'),
+(1, 1, 0, 'Kingfree', 0, 0, 6, 'C', 0, -1, -1, '0.0.0.0', '2011-06-30 08:55:10', '2011-06-30 20:55:10');
 
 -- --------------------------------------------------------
 

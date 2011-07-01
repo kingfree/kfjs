@@ -1,5 +1,16 @@
 <?
 
+function GetJudgeInfo($num) {
+    if($num==_num_AC) return _lg_AC;
+    if($num==_num_WA) return _lg_WA;
+    if($num==_num_TL) return _lg_TL;
+    if($num==_num_ML) return _lg_ML;
+    if($num==_num_RE) return _lg_RE;
+    if($num==_num_NO) return _lg_NO;
+    if($num==_num_CE) return _lg_CE;
+    if($num==_num_NS) return _lg_NS;
+}
+
 function GetBrowser($agent) {
 	//$str=$agent."\n";
 	$str="";

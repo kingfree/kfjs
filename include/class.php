@@ -110,7 +110,7 @@ class Page {
 			echo " <a href='../users/regpage.php'>" . _GB_REGISTER . "</a>\n";
 		}
 		if(isset($_SESSION['administrator'])||isset($_SESSION['contest_creator']))
-			echo " <a href='../admin'>" . _GB_ADMIN . "</a>\n";
+			echo " <a href='../admin' target='_blank'>" . _GB_ADMIN . "</a>\n";
 	}
 
 	public function ShowLinkBar() {

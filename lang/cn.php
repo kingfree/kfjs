@@ -66,10 +66,13 @@
 	define("_GB_USER", "用户");
 	define("_GB_PROBLEM", "问题");
 	define("_GB_RESULT", "结果");
+	define("_GB_DETAIL", "详细结果");
+	define("_GB_SCORE", "得分");
 	define("_GB_MEMORY", "内存");
 	define("_GB_TIME", "耗时");
 	define("_GB_GROUP", "团队");
 	define("_GB_LANG", "语言");
+	define("_GB_IP", "IP");
 	define("_GB_CODE_LENGTH", "代码长度");
 	define("_GB_SUBMIT_TIME", "提交时间");
 
@@ -117,9 +120,9 @@
 	define("_GB_Date", "时间");
 	define("_GB_Time_Limit", "时间限制");
 	define("_GB_Memory_Limit", "内存限制");
-	define("_GB_Problem_Name", "程序名称");
+	define("_GB_Problem_Name", "题目名称");
 	define("_GB_Problem_English_Name", "英文名称");
-	define("_GB_File_Name", "文件名称");
+	define("_GB_File_Name", "程序名称");
 	define("_GB_IO_Type", "输入输出");
 	define("_GB_Judge_Type", "评测类型");
 	define("_GB_Problem_Source", "题目来源");

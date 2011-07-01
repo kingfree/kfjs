@@ -32,8 +32,8 @@ public function __construct($pid=-1, $cid=-1) {
 
 public function Upload() {
     echo "<div class=ptt>正在上传文件……</div>\n<div class=ptx>";
-    if ($_FILES["file"]["error"] > 0) {
-        ShowErrorGo("错误: ".$_FILES["file"]["error"], $_FILES["file"]["error"], 0);
+    if (!isset($_FILES["file"]) || $_FILES["file"]["error"] > 0) {
+        ShowErrorGo("错误: ".$_FILES["file"]["error"], $_FILES["file"]["error"], -1);
     } else {
         echo "文件: ".$_FILES["file"]["name"]."<br />";
         echo "类型: ".$_FILES["file"]["type"]."<br />";
@@ -137,6 +137,7 @@ function getmicrotime()
 }
 public function Judge() {
     echo "<div class=ptt>开始评测……</div>\n<div class=ptx>";
+    $this->result = -1;
     $input_name = str_replace("#", "", $this->input_template);
     $output_name = str_replace("#", "", $this->output_template);
     $answer_name = str_replace("#", "", $this->answer_template);
@@ -161,31 +162,34 @@ public function Judge() {
         exec($crlink);
         if(!file_exists($output_name)) {
             $now = _ch_NO;
-            echo _ch_NO."\n";
+            $score = 0;
+            $this->result = _num_NO;
+            echo GetJudgeInfo(_num_NO)."\n";
         } else {
-        $fout=fopen($output_name,"r");
-        $fin=fopen($input_name,"r");
-    	$fans=fopen($answer_name,"r");
-        $score=$this->standard_compare($fans,$fout);
-        if($score == 10) $now = _ch_AC;
-        else if($score == 0) $now = _ch_WA;
-        else $now = $score;
+            $fout=fopen($output_name,"r");
+            $fin=fopen($input_name,"r");
+            $fans=fopen($answer_name,"r");
+            $score=$this->standard_compare($fans,$fout);
+            if($score == 10) $now = _ch_AC;
+                else if($score == 0) $now = _ch_WA;
+                else $now = $score;
+            fclose($fin);
+            fclose($fout);
+            fclose($fans);
+            unlink($output_name);
+        }
+
         echo "得分【{$score}】\n";
         $this->score += $score;
-        $this->detail+= $now;
-		fclose($fin);
-		fclose($fout);
-		fclose($fans);
-        if(file_exists($output_name)) unlink($output_name);
-        }
+        $this->detail.= $now;
 
         echo "<br />";
     }
 
-    if($this->score >= $this->end_num - $this->start_num + 1)
+    if($this->result==-1) {if($this->score >= ($this->end_num - $this->start_num + 1)*10)
         $this->result = _num_AC;
     else
-        $this->result = _num_WA;
+        $this->result = _num_WA;}
     $this->runtime = 0;
     $this->memory = 0;
 

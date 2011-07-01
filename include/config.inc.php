@@ -1,6 +1,6 @@
 <?php
 
-	define("_GB_Version_Number", "0.3.3");
+	define("_GB_Version_Number", "0.3.4");
 
 	define("_ID_GUEST", 0);
 	define("_ID_NO", -1);
@@ -27,6 +27,14 @@
 	define("_num_CE", 6); //编译错误
 	define("_num_NS", 7); //无源文件
 
+	define("_lg_AC", "正确");
+	define("_lg_WA", "答案错误");
+	define("_lg_TL", "超时");
+	define("_lg_ML", "超限");
+	define("_lg_RE", "运行时错误");
+	define("_lg_NO", "无输出文件");
+	define("_lg_CE", "编译错误");
+	define("_lg_NS", "无源文件");
 
 //	$jresult=Array(_GB_PD, _GB_PR, _GB_CI, _GB_RJ, _GB_AC, _GB_PE, _GB_WA, _GB_TLE, _GB_MLE, _GB_OLE, _GB_RE, _GB_CE, _GB_CO);
 

@@ -26,32 +26,73 @@ if(isset($_GET['pid'])) {
 <?=_GB_Problem_English_Name?>:
 <input type=text name=English size=30 value="<?=$prob->English?>"></p>
 
-<p><?=_GB_Time_Limit?>:
-<input type=text name=time_limit size=26 value="<?=$prob->time_limit?>">s
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<?=_GB_Memory_Limit?>:
-<input type=text name=memory_limit size=26 value="<?=$prob->memory_limit?>">MB</p>
-
+<script language=JavaScript type=text/javascript>
+document.getElementById('file').addEventListener('change', function() {
+    showValue(document.getElementById("file").value);
+}, false); //此函数用于支持Chrome
+function showValue(obj){
+    if(document.getElementById("cogs").value=="") {
+        document.getElementById("cogs").value = obj;
+    }
+    if(document.getElementById("ifile").value=="<?=$prob->input_template?>") {
+        document.getElementById("ifile").value = obj+"#.in";
+    }
+    if(document.getElementById("ofile").value=="<?=$prob->output_template?>") {
+        document.getElementById("ofile").value = obj+".out";
+    }
+    if(document.getElementById("afile").value=="<?=$prob->answer_template?>") {
+        document.getElementById("afile").value = obj+"#.ans";
+    }
+}
+</script>
 <p><?=_GB_File_Name?>:
-<input type=text name=program_filename size=30 value="<?=$prob->program_filename?>">
+<input id=file onchange="showValue(this.value)" type=text name=program_filename size=30 value="<?=$prob->program_filename?>">
 
 <?=_GB_Problem_Source?>:
 <input type=text name=source size=30 value="<?=$prob->source?>"></p>
 
+<p>
+    <input type=checkbox name=cogs value='0' checked>从 CmYkRgB123 Online Grading System 导入数据: 
+    <input id=cogs type=text name=cogs_name size=30 value="">
+</p>
+<script type="text/javascript"> 
+$(document).ready(function(){
+$(".flip").click(function(){
+    $(".panel").slideToggle("slow");
+  });
+});
+</script>
+ 
+<style type="text/css"> 
+div.panel,p.flip {
+width:700px;
+margin:0px;
+padding:5px;
+border:solid 1px #c3c3c3;
+}
+p.flip {
+text-align: center;
+}
+div.panel {
+display:none;
+}
+</style>
+<p class="flip">编辑具体评测信息</p>
+<div class="panel">
 <p><?=_GB_Input_Template?>:
-<input type=text name=input_template size=30 value="<?=$prob->input_template?>">
+<input id=ifile type=text name=input_template size=30 value="<?=$prob->input_template?>">
 
 <?=_GB_Output_Template?>:
-<input type=text name=output_template size=30 value="<?=$prob->output_template?>"></p>
+<input id=ofile type=text name=output_template size=30 value="<?=$prob->output_template?>"></p>
 
 <p><?=_GB_Answer_Template?>:
-<input type=text name=answer_template size=30 value="<?=$prob->answer_template?>">
+<input id=afile type=text name=answer_template size=30 value="<?=$prob->answer_template?>">
 
 <?=_GB_StartNum?>:
-<input type=text name=start_num size=10 value="<?=$prob->start_num?>">
+<input type=text name=start_num size=6 value="<?=$prob->start_num?>">
 
 <?=_GB_EndNum?>:
-<input type=text name=end_num size=10 value="<?=$prob->end_num?>"></p>
+<input type=text name=end_num size=6 value="<?=$prob->end_num?>"></p>
 
 <p><?=_GB_Judge_Type?>:
 	<input type=radio name=judge_type value='0' checked><?echo $judge_type[0];?>
@@ -64,6 +105,13 @@ if(isset($_GET['pid'])) {
 	<input type=radio name=compare_type value='1'><?echo $compare_type[1];?>
 	<input type=radio name=compare_type value='2'><?echo $compare_type[2];?>
 </p>
+<p><?=_GB_Time_Limit?>:
+<input type=text name=time_limit size=26 value="<?=$prob->time_limit?>">s
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?=_GB_Memory_Limit?>:
+<input type=text name=memory_limit size=26 value="<?=$prob->memory_limit?>">MB</p>
+
+</div>
 
 <p>所属比赛:
 	<select name=contest_id>
