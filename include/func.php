@@ -1,5 +1,12 @@
 <?
 
+function GetProblemTitle($num) {
+    $sql = "SELECT `title` FROM `problem` WHERE `problem_id`=$num";
+    $result = mysql_query($sql);
+    $row = mysql_fetch_object($result);
+    return $row->title;
+}
+
 function GetJudgeInfo($num) {
     if($num==_num_AC) return _lg_AC;
     if($num==_num_WA) return _lg_WA;
@@ -9,6 +16,16 @@ function GetJudgeInfo($num) {
     if($num==_num_NO) return _lg_NO;
     if($num==_num_CE) return _lg_CE;
     if($num==_num_NS) return _lg_NS;
+}
+
+function GetLangInfo($num) {
+    if($num==0) return "C";
+    if($num==1) return "C++";
+    if($num==2) return "Pascal";
+    if($num==3) return "PHP";
+    if($num==4) return "Java";
+    if($num==5) return "Python";
+    return "Unknown";
 }
 
 function GetBrowser($agent) {

@@ -59,13 +59,13 @@ class User {
 		$this->group=explode(",", $row->user_group);
 		mysql_free_result($result);
 		// 题目解决次数
-		$sql="SELECT count(DISTINCT problem_id) as `ac` FROM `solution` WHERE `user_id`='{$this->user_id}' AND `result`=4";
+		$sql="SELECT count(DISTINCT pid) as `ac` FROM `submit` WHERE `uid`='{$this->user_id}' AND `result`=0";
 		$result=mysql_query($sql);
 		$row=mysql_fetch_object($result);
 		$this->solved=$row->ac;
 		mysql_free_result($result);
 		// 提交次数
-		$sql="SELECT count(solution_id) as `Submit` FROM `solution` WHERE `user_id`='{$this->user_id}'";
+		$sql="SELECT count(jid) as `Submit` FROM `submit` WHERE `uid`='{$this->user_id}'";
 		$result=mysql_query($sql);
 		$row=mysql_fetch_object($result);
 		$this->submit=$row->Submit;

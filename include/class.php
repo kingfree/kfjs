@@ -32,11 +32,11 @@ class Page {
 		echo "<script type=\"text/javascript\" src=\"../include/jquery.js\"></script>\n";
 		echo "<script type=\"text/javascript\" src=\"../include/wz_jsgraphics.js\"></script>\n";
 		echo "<script type=\"text/javascript\" src=\"../include/pie.js\"></script>\n";
-		echo "<script type=\"text/javascript\" src=\"../include/sortTable.js\"></script>";
-		echo "<script charset=\"utf-8\" src=\"../editor/kindeditor.js\"></script>";
-	}
+		echo "<script type=\"text/javascript\" src=\"../include/sortTable.js\"></script>\n";
+		echo "<script charset=\"utf-8\" src=\"../editor/kindeditor.js\"></script>\n";
+    }
 	public function BodyHead() {
-		echo "<body>\n";
+		echo "<body onload=\"sh_highlightDocument();\">\n";
 		$this->LoadScript();
 		echo "<table id=Top>\n";
 		echo "<tr>\n";
@@ -75,7 +75,6 @@ class Page {
 		echo "<tr>\n";
 		echo "<td width=20% align=left>"._GB_Title."</td>\n";
 		echo "<td align=center>".GetBrowser($_SERVER['HTTP_USER_AGENT'])."</td>\n";
-		//echo "<td width=30% align=right>当前时间: <span id=nowdate></span>&nbsp;</td>\n";
 		echo "<td width=30% align=right>服务器时间: ".strftime("%b %d %Y %X",time())."&nbsp;</td>\n";
 		echo "</tr>\n";
 		echo "</table>\n";
@@ -90,11 +89,17 @@ class Page {
 		echo "<link rel='shortcut icon' href='../images/kjs.ico' />\n";
 		$this->title = $title;
 		echo "<title>\n" . $this->title . " - " . _GB_Title . " " . _GB_Version_Number . "\n</title>\n";
+
+        echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"../editor/shjs/css/sh_nedit.css\">\n";
+        echo "<script type=\"text/javascript\" src=\"../editor/shjs/doc/style.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"../editor/shjs/sh_main.min.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"../editor/shjs/lang/sh_cpp.min.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"../editor/shjs/lang/sh_c.min.js\"></script>\n";
+        echo "<script type=\"text/javascript\" src=\"../editor/shjs/lang/sh_pascal.min.js\"></script>\n";
 		echo "</head>\n";
 	}
 	public function HTMLFoot() {
 		echo "</html>\n";
-		//include("../include/time.php");
 	}
 	public function ShowMeta() {
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />\n";
@@ -117,8 +122,7 @@ class Page {
 		echo " <a href='../index'>" . _GB_HOME . "</a>\n";
 		echo " <a href='../problem'>" . _GB_PROBLEMS . "</a>\n";
 		echo " <a href='../index/datas.php'>" . _GB_DATAS . "</a>\n";
-		//echo " <a href='../data'>" . _GB_DATAS . "</a>\n";
-		echo " <a href='../contest'>" . _GB_CONTEST . "</a>\n";
+		//echo " <a href='../contest'>" . _GB_CONTEST . "</a>\n";
 		echo " <a href='../status'>" . _GB_STATUS . "</a>\n";
 		echo " <a href='../users'>" . _GB_USER . "</a>\n";
 		echo " <a href='../groups'>" . _GB_GROUP . "</a>\n";
@@ -128,11 +132,11 @@ class Page {
 	}
 
 	public function ShowLang() {
-		echo " <a href='../lang/index.php?lang=cn'>简体中文</a>\n";
+		/*echo " <a href='../lang/index.php?lang=cn'>简体中文</a>\n";
 		echo " <a href='../lang/index.php?lang=zh'>正體中文</a>\n";
 		echo " <a href='../lang/index.php?lang=en'>English</a>\n";
 		echo " <a href='../lang/index.php?lang=ja'>日本語</a>\n";
-		echo " <a href='../lang/index.php?lang=kr'>한국어</a>\n";
+        echo " <a href='../lang/index.php?lang=kr'>한국어</a>\n";*/
 	}
 
 	public function ShowCopyright() {

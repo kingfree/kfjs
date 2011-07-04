@@ -1,128 +1,59 @@
 <?php
 class Status {
 
-	public $jid, $title, $description, $input, $output, $sample_input, $sample_output, $input_template, $output_template, $hint, $source, $in_date, $time_limit, $memory_limit, $program_filename, $program_type, $start_num, $end_num, $English, $compare_type, $defunct, $accepted, $submit, $solved;
-	public $contest_id;
+    public $jid, $pid, $cid, $uid, $result, $detail, $score, $runtime, $memory, $langtype, $submit_time, $judge_time;
+    private $source, $ip;
 
-	public function GetNewPID() {
-		$sql="SELECT max(`jid`) as pid FROM `submit`";
+	public function __construct($jid, $nowuser="0", $admin=0) {
+        $this->jid = $jid;
+        $sql = "SELECT * from `submit` WHERE `jid`=$this->jid";
 		$result=mysql_query($sql);
 		$row=mysql_fetch_object($result);
-		$this->jid = $row->pid+1;
-		mysql_free_result($result);
+        mysql_free_result($result);
+        $this->pid = $row->pid;
+        $this->cid = $row->cid;
+        $this->uid = $row->uid;
+        if($this->uid==$nowuser || $admin==1)
+            $this->source = $row->source;
+        else
+            $this->source = "不允许查看！";
+        $this->result = $row->result;
+        $this->detail = $row->detail;
+        $this->score = $row->score;
+        $this->runtime = $row->runtime;
+        $this->memory = $row->memory;
+        $this->ip = $row->ip;
+        $this->langtype = $row->langtype;
+        $this->submit_time = $row->submit_time;
+        $this->judge_time = $row->judge_time;
+    }
+
+    public function ShowStatus() {
+        echo "<div class=status>";
+        if($this->langtype==0) $lang = 'c';
+        if($this->langtype==1) $lang = 'cpp';
+        if($this->langtype==2) $lang = 'pascal';
+        echo "<div class=ptt>源代码</div>";
+        echo "<div class=ptx><pre class='sh_$lang'>";
+        echo htmlspecialchars($this->source);
+        echo "</pre></div>";
+        echo "</div>";
 	}
 
-	public function __construct($pid=-1, $cid=-1) {
-		$this->jid = $pid;
-		$this->contest_id = $cid;
-		$this->title = "";
-		$this->description = "";
-		$this->input = "";
-		$this->output = "";
-		$this->sample_input = "";
-		$this->sample_output = "";
-		$this->input_template = "file#.in";
-		$this->output_template = "file#.out";
-		$this->answer_template = "file#.ans";
-		$this->hint = "";
-		$this->source = "";
-		$this->in_date = "";
-		$this->time_limit = 1;
-		$this->memory_limit = 128;
-		$this->program_filename = "file";
-		$this->program_type = 0;
-		$this->start_num = 1;
-		$this->end_num = 10;
-		$this->English = "";
-		$this->compare_type = 0;
-		$this->defunct = "N";
-		$this->accepted = 0;
-		$this->submit = 0;
-		$this->solved = 0;
-		if($pid==-1)
-			$this->GetNewPID();
-		else if($cid==-1)
-			$this->ReadStatus();
-		else
-			$this->ReadContestStatus();
-	}
-
-	public function ReadStatus() {
-		//查询数据库
-		$id=intval($this->jid);
-		if (!isset($_SESSION['administrator']) && $id!=1000)
-			$sql="SELECT * FROM `submit` WHERE `jid`=$id AND `defunct`='N' AND `jid` NOT IN (
-				SELECT `jid` FROM `contest_problem` WHERE `contest_id` IN(
-						SELECT `contest_id` FROM `contest` WHERE `end_time`>NOW() or `private`='1'))
-			";
-		else
-			$sql="SELECT * FROM `submit` WHERE `jid`=$id";
-		$result=mysql_query($sql);
-		$row=mysql_fetch_object($result);
-		mysql_free_result($result);
-		//读取题目信息
-		$this->jid=$row->jid;
-		$this->title=$row->title;
-		$this->description=$row->description;
-		$this->input=$row->input;
-		$this->output=$row->output;
-		$this->sample_input=$row->sample_input;
-		$this->sample_output=$row->sample_output;
-		$this->input_template=$row->input_template;
-		$this->output_template=$row->output_template;
-		$this->answer_template=$row->answer_template;
-		$this->hint=$row->hint;
-		$this->source=$row->source;
-		$this->in_date=$row->in_date;
-		$this->time_limit=$row->time_limit;
-		$this->memory_limit=$row->memory_limit;
-		$this->program_filename=$row->program_filename;
-		$this->program_type=$row->program_type;
-		$this->start_num=$row->start_num;
-		$this->end_num=$row->end_num;
-		$this->English=$row->English;
-		$this->compare_type=$row->compare_type;
-		$this->defunct=$row->defunct;
-		$this->accepted=$row->accepted;
-		$this->submit=$row->submit;
-		$this->solved=$row->solved;
-	}
-
-	public function ReadContestStatus($cid) {
-
-	}
-
-	public function Language_Type() {
-		global $language_name, $io_type, $zipfile_name;
-		echo "<label for='lang_type'>"._GB_Language_Type." : </label>\n";
-		echo "<select name='lang_type'>\n";
-		echo "<option value='auto'>"._GB_Auto_Check."</option>\n";
-		for($i=0; $i<count($language_name); $i++)
-			echo "<option value=$i>{$language_name[$i]}</option>\n";
-		echo "</select>\n";
-	}
-
-	public function IO_Type() {
-		global $language_name, $io_type, $zipfile_name;
-	echo "<label for='io_type'>"._GB_IO_Type." : </label>\n";
-		echo "<input type=radio name=io_type value='1' checked>{$io_type[1]}\n";
-		echo "<input type=radio name=io_type value='0'>{$io_type[0]}\n";
-		echo "</select>\n";
-	}
-
-	public function Zip_File_Type() {
-		global $language_name, $io_type, $zipfile_name;
-		echo "<label for='zip_type'>"._GB_Zip_File_Type." : </label>";
-		echo "<select name='zip_type'>";
-		echo "<option value=auto>"._GB_Auto_Check."</option>";
-		for($i=0; $i<count($zipfile_name); $i++)
-			echo "<option value=$i>{$zipfile_name[$i]}</option>";
-		echo "</select>";
-	}
-
-	public function ShowStatus() {
-		global $judge_type, $io_type, $compare_type;
+	public function ShowStatus1() {
 	echo "<div><table frame=void width=100%>";
+            echo "<tr><td><a href='../status/status.php?jid=$this->jid'>".$this->jid."</a></td>\n";
+            echo "<td><a href='../problem/problem.php?id=$this->pid'>".GetProblemTitle($this->pid)."</a></td>\n";
+            echo "<td><a href='../users/info.php?user=$this->uid'>$this->uid</a></td>\n";
+            echo "<td>".GetJudgeInfo($this->result)."</td>\n";
+            echo "<td>".$this->detail."</td>\n";
+            echo "<td>".$this->score."</td>\n";
+            echo "<td>".GetLangInfo($this->langtype)."</td>\n";
+            echo "<td>".($this->runtime == -1 ? "N/A" : $this->runtime." ms")."</td>\n";
+            echo "<td>".($this->memory == -1 ? "N/A" : $this->memory." KB")."</td>\n";
+            //echo "<td>".$row->ip."</td>\n";
+            echo "<td>".$this->submit_time."</td>\n";
+			echo "</tr>";
 	echo "<td width=50%><div class='box' style='margin:0px 0px 0px 25px;'>\n";
 	echo "<div class='ptt' style='width: 90%; margin : 10px 20px 0 10px;'>题目详细信息</div>\n";
 	echo "<div class='ptx' style='width: 88%; margin : 0 30px 10px 10px;'><table frame=box width=95% rules=all style='margin : 5px;'>";
@@ -172,52 +103,6 @@ class Status {
 	echo "<div class=\"ptt\">"._GB_HINT."</div>\n<div class=\"ptx\">".$this->hint."</div>\n";;
 	}
 
-	public function AddStatus() {
-		$sql = "INSERT into `submit`(
-`jid`,`title`,`English`,`time_limit`,`memory_limit`,`source`,
-`program_type`,`compare_type`,`start_num`,`end_num`,
-`program_filename`,`input_template`,`output_template`,`answer_template`,
-`description`,`input`,`output`,`sample_input`,`sample_output`,`hint`,
-`in_date`,`defunct`)
-VALUES(
-$this->jid,'$this->title','$this->English',$this->time_limit,$this->memory_limit,'$this->source',
-$this->program_type,$this->compare_type,$this->start_num,$this->end_num,
-'$this->program_filename','$this->input_template','$this->output_template','$this->answer_template',
-'$this->description','$this->input','$this->output','$this->sample_input','$this->sample_output','$this->hint',
-NOW(),'$this->defunct')";
-		//echo $sql;
-		if(@mysql_query($sql))
-			return true;
-		else {
-			echo mysql_error();
-			return false;
-		}
-	}
-
-	public function UpdateStatus() {
-		$sql="UPDATE `submit` set
-`title`='$this->title',`English`='$this->English',
-`time_limit`='$this->time_limit',`memory_limit`='$this->memory_limit',
-`program_type`=$this->program_type, `compare_type`=$this->compare_type,
-`start_num`=$this->start_num, `end_num`=$this->end_num,
-`program_filename`='$this->program_filename',
-`input_template`='$this->input_template',
-`output_template`='$this->output_template',
-`answer_template`='$this->answer_template',
-`description`='$this->description',`input`='$this->input',`output`='$this->output',
-`sample_input`='$this->sample_input',`sample_output`='$this->sample_output',`hint`='$this->hint',
-`source`='$this->source',`in_date`=NOW()
-WHERE `jid`=$this->jid";
-		//echo $sql;
-		if(@mysql_query($sql))
-			return true;
-		else {
-			echo mysql_error();
-			return false;
-		}
-	}
-
-
 }
 
 
@@ -227,7 +112,6 @@ WHERE `jid`=$this->jid";
 class StatusList extends Status {
 
 	public $user_id, $cnt, $pstart, $pend, $sub_arr, $acc_arr, $search, $sqlresult;
-    public $jid, $pid, $cid, $uid, $result, $detail, $score, $runtime, $memory, $ip, $submit_time;
 
 	public function __construct($uid, $page, $search="") {
 		$this->user_id=$uid;
@@ -238,11 +122,11 @@ class StatusList extends Status {
 
 	public function GetStatusCount() {
 		$page_size = 100;
-		$sql="SELECT max(`jid`) as upid FROM `submit`";
+		$sql="SELECT max(`jid`) as mjid FROM `submit`";
 		$result=mysql_query($sql);
 		$row=mysql_fetch_object($result);
-		$this->cnt=intval($row->upid)/$page_size;
-		$this->pstart=$page_size*intval($this->page)-$page_size;
+		$this->cnt=intval($row->mjid)/$page_size;
+		$this->pstart=$page_size*intval($this->cnt - $this->page + 1);
 		$this->pend=$this->pstart+$page_size;
 	}
 
@@ -264,11 +148,11 @@ class StatusList extends Status {
 	public function ShowStatusList() {
 		echo "<center>\n";
 		//搜索
-		echo "<table width=90%><tr>\n";
-		echo "<td align=center><form action=../status/problem.php>"._GB_RUNID."<input type='text' name='id' size=8><input type='submit' value='"._GB_GO."' ></form></td>\n";
+		/*echo "<table width=90%><tr>\n";
+		echo "<td align=center><form action=../status/status.php>"._GB_RUNID."<input type='text' name='id' size=8><input type='submit' value='"._GB_GO."' ></form></td>\n";
 		echo "<td> &nbsp; </td>\n";
 		echo "<td align=center><form>"._GB_SEARCH."<input type='text' name='search'><input type='submit' value=\""._GB_SEARCH."\" ></form></td>\n";
-		echo "</tr></table>\n";
+        echo "</tr></table>\n";*/
 		//标题行
 		echo "<table id='statuslist' width='90%'>";
 		echo "<tr align=center class='toprow'>";
@@ -278,9 +162,10 @@ class StatusList extends Status {
 		echo "<td><A>"._GB_RESULT."</A></td>\n";
 		echo "<td><A>"._GB_DETAIL."</A></td>\n";
 		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 6, 'int');\"><A>"._GB_SCORE."</A></td>\n";
+		echo "<td><A>"._GB_LANG."</A></td>\n";
 		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 7, 'int');\"><A>"._GB_TIME."</A></td>\n";
 		echo "<td style=\"cursor:hand\" onclick=\"sortTable('statuslist', 8, 'int');\"><A>"._GB_MEMORY."</A></td>\n";
-		echo "<td><A>"._GB_IP."</A></td>\n";
+		//echo "<td><A>"._GB_IP."</A></td>\n";
 		echo "<td><A>"._GB_SUBMIT_TIME."</A></td>\n";
 		echo "</tr></thead><tbody>";
 		//循环显示
@@ -293,15 +178,16 @@ class StatusList extends Status {
 				echo "<tr class='evenrow'>";
 			//题目信息
     // $jid, $pid, $cid, $uid, $result, $detail, $score, $runtime, $memory, $ip, $submit_time;
-            echo "<td>".$row->jid."</td>\n";
-            echo "<td>".$row->pid."</td>\n";
-            echo "<td>".$row->uid."</td>\n";
+            echo "<td><a href='../status/status.php?jid=$row->jid'>".$row->jid."</a></td>\n";
+            echo "<td><a href='../problem/problem.php?id=$row->pid'>".GetProblemTitle($row->pid)."</a></td>\n";
+            echo "<td><a href='../users/info.php?user=$row->uid'>$row->uid</a></td>\n";
             echo "<td>".GetJudgeInfo($row->result)."</td>\n";
             echo "<td>".$row->detail."</td>\n";
             echo "<td>".$row->score."</td>\n";
-            echo "<td>".$row->runtime." s</td>\n";
-            echo "<td>".$row->memory." KB</td>\n";
-            echo "<td>".$row->ip."</td>\n";
+            echo "<td>".GetLangInfo($row->langtype)."</td>\n";
+            echo "<td>".($row->runtime == -1 ? "N/A" : $row->runtime." ms")."</td>\n";
+            echo "<td>".($row->memory == -1 ? "N/A" : $row->memory." KB")."</td>\n";
+            //echo "<td>".$row->ip."</td>\n";
             echo "<td>".$row->submit_time."</td>\n";
 			echo "</tr>";
 			$cnt=1-$cnt;

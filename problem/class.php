@@ -22,12 +22,12 @@ class Problem {
 		$this->sample_input = "";
 		$this->sample_output = "";
 		$this->input_template = "file#.in";
-		$this->output_template = "file#.out";
+		$this->output_template = "file.out";
 		$this->answer_template = "file#.ans";
 		$this->hint = "";
 		$this->source = "";
 		$this->in_date = "";
-		$this->time_limit = 1;
+		$this->time_limit = 1000;
 		$this->memory_limit = 128;
 		$this->program_filename = "file";
 		$this->program_type = 0;
@@ -83,9 +83,18 @@ class Problem {
 		$this->English=$row->English;
 		$this->compare_type=$row->compare_type;
 		$this->defunct=$row->defunct;
-		$this->accepted=$row->accepted;
-		$this->submit=$row->submit;
-		$this->solved=$row->solved;
+		// 题目解决次数
+		$sql="SELECT count(jid) as `ac` FROM `submit` WHERE `pid`='{$this->problem_id}' AND `result`='0'";
+		$result=mysql_query($sql);
+		$row=mysql_fetch_object($result);
+		$this->solved=$row->ac;
+		mysql_free_result($result);
+		// 提交次数
+		$sql="SELECT count(jid) as `Submit` FROM `submit` WHERE `pid`='{$this->problem_id}'";
+		$result=mysql_query($sql);
+		$row=mysql_fetch_object($result);
+		$this->submit=$row->Submit;
+		mysql_free_result($result);
 	}
 
 	public function ReadContestProblem($cid) {
@@ -129,7 +138,7 @@ class Problem {
 	echo "<tr><td width=20%><span class=green>"._GB_Problem_Name."</span></td><td>$this->title</td>";
 	echo "<td width=20%><span class=green>"._GB_Problem_English_Name."</span></td><td>$this->English</td></tr>";
 	if($this->program_type!=1) {
-		echo "<tr><td width=15%><span class=green>"._GB_Time_Limit."</span></td><td>$this->time_limit s</td>";
+		echo "<tr><td width=15%><span class=green>"._GB_Time_Limit."</span></td><td>$this->time_limit ms</td>";
 		echo "<td width=15%><span class=green>"._GB_Memory_Limit."</span></td><td>$this->memory_limit MB</td></tr>";
 	}
 	echo "<tr><td><span class=green>"._GB_File_Name."</span></td><td>$this->program_filename</td>";
@@ -141,7 +150,7 @@ class Problem {
 	echo "<tr><div class='box' style='width: 340px; float:right;'>";
 	echo "<div class='ptt' style='width: 310px; margin : 10px 20px 0 10px;'>提交程序或答案</div>";
 	echo "<div class='ptx' style='width: 300px; margin : 0 30px 10px 10px;'>";
-	echo "<a href='../judge/status.php?id={$this->problem_id}'>状态</a> : 提交".$this->submit." ，解决".$this->accepted."";
+	echo "<a href='../judge/status.php?id={$this->problem_id}'>状态</a> : 提交".$this->submit." ，解决".$this->solved."";
 	echo "<form action='../judge/submit.php?id=$this->problem_id' method=post enctype='multipart/form-data'>\n";
 	if($this->program_type==0 || $this->program_type==2) {
 		echo "<li>"; $this->Language_Type(); echo "</li>\n";
@@ -250,10 +259,10 @@ class ProblemList extends Problem {
 		// 提交数组
 		$this->sub_arr=Array();
 		if($this->user_id!="0") {
-		$sql="SELECT `problem_id` FROM `solution` WHERE `user_id`='".$this->user_id."'".
-			" AND `problem_id`>='{$this->pstart}'".
-			" AND `problem_id`<'{$this->pend}'".
-			" group by `problem_id`";
+		$sql="SELECT `pid` FROM `submit` WHERE `uid`='".$this->user_id."'".
+			" AND `pid`>='{$this->pstart}'".
+			" AND `pid`<'{$this->pend}'".
+			" group by `pid`";
 		$result=mysql_query($sql);
 		while($row=mysql_fetch_array($result))
 			$this->sub_arr[$row[0]]=true;
@@ -261,11 +270,11 @@ class ProblemList extends Problem {
 		// 通过数组
 		$this->acc_arr=Array();
 		if($this->user_id!="0") {
-		$sql="SELECT `problem_id` FROM `solution` WHERE `user_id`='".$this->user_id."'".
-			" AND `problem_id`>='{$this->pstart}'".
-			" AND `problem_id`<'{$this->pend}'".
-			" AND `result`=4".
-			" group by `problem_id`";
+		$sql="SELECT `pid` FROM `submit` WHERE `uid`='".$this->user_id."'".
+			" AND `pid`>='{$this->pstart}'".
+			" AND `pid`<'{$this->pend}'".
+			" AND `result`=0".
+			" group by `pid`";
 		$result=mysql_query($sql);
 		while($row=mysql_fetch_array($result))
 			$this->acc_arr[$row[0]]=true;
@@ -277,9 +286,9 @@ class ProblemList extends Problem {
 		$this->CheckSubmitAC();
 		//按用户ID读取题目
 		if($this->user_id!="0") {
-			$sql="SELECT `problem_id`,`title`,`source`,`submit`,`accepted` FROM `problem` WHERE ";
+			$sql="SELECT `problem_id`,`title`,`source` FROM `problem` WHERE ";
 		} else {
-		$sql="SELECT `problem_id`,`title`,`source`,`submit`,`accepted` FROM `problem` ".
+		$sql="SELECT `problem_id`,`title`,`source` FROM `problem` ".
 			"WHERE `defunct`='N' AND `problem_id` NOT IN(
 				SELECT `problem_id` FROM `contest_problem` WHERE `contest_id` IN (
 					SELECT `contest_id` FROM `contest` WHERE
@@ -298,6 +307,21 @@ class ProblemList extends Problem {
 		//开始执行
 		$this->result=mysql_query($sql);
 	}
+
+    public function GetProblemSubmit() {
+		// 题目解决次数
+		$sql="SELECT count(jid) as `ac` FROM `submit` WHERE `pid`='{$this->problem_id}' AND `result`='0'";
+		$result=mysql_query($sql);
+		$row=mysql_fetch_object($result);
+		$this->solved=$row->ac;
+		mysql_free_result($result);
+		// 提交次数
+		$sql="SELECT count(jid) as `Submit` FROM `submit` WHERE `pid`='{$this->problem_id}'";
+		$result=mysql_query($sql);
+		$row=mysql_fetch_object($result);
+		$this->submit=$row->Submit;
+		mysql_free_result($result);
+    }
 
 	public function ShowProblemList() {
 		echo "<center>\n";
@@ -333,10 +357,12 @@ class ProblemList extends Problem {
 			}
 			echo "</td>";
 			//题目信息
+            $this->problem_id = $row->problem_id;
+            $this->GetProblemSubmit();
 			echo "<td align='center'>".$row->problem_id."</td>";
 			echo "<td align='left'><a href='../problem/problem.php?id=".$row->problem_id."'>".$row->title."</a></td>";
 			echo "<td align='center'><a href='../problem/index.php?search=$row->source'>".$row->source."</a></td>";
-			echo "<td align='center'><a href='../status/index.php?problem_id=".$row->problem_id."&jresult=4'>".$row->accepted."</a></td><td align='center'><a href='../status/index.php?problem_id=".$row->problem_id."'>".$row->submit."</a></td>";
+			echo "<td align='center'><a href='../status/index.php?problem_id=".$row->problem_id."&jresult=4'>".$this->solved."</a></td><td align='center'><a href='../status/index.php?problem_id=".$row->problem_id."'>".$this->submit."</a></td>";
 			echo "</tr>";
 			$cnt=1-$cnt;
 		}

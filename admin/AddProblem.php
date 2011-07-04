@@ -106,7 +106,7 @@ display:none;
 	<input type=radio name=compare_type value='2'><?echo $compare_type[2];?>
 </p>
 <p><?=_GB_Time_Limit?>:
-<input type=text name=time_limit size=26 value="<?=$prob->time_limit?>">s
+<input type=text name=time_limit size=26 value="<?=$prob->time_limit?>">ms
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?=_GB_Memory_Limit?>:
 <input type=text name=memory_limit size=26 value="<?=$prob->memory_limit?>">MB</p>

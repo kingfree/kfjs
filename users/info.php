@@ -54,11 +54,11 @@ mysql_free_result($result);
 </tr>
 <tr><td><?=_GB_SUBMIT?><td align=center><a href='status.php?user_id=<?=$user->user_id?>'><?=$user->submit?></a></tr>
 <?php
-	$sql="SELECT result,count(1) FROM solution WHERE `user_id`='$user->user_id'  AND result>=4 group by result order by result";
+	$sql="SELECT result,count(1) FROM `submit` WHERE `uid`='$user->user_id'  AND result>=4 group by result order by result";
 	$result=mysql_query($sql);
 	while($row=mysql_fetch_array($result)){
 $jresult=Array(_GB_PD, _GB_PR, _GB_CI, _GB_RJ, _GB_AC, _GB_PE, _GB_WA, _GB_TLE, _GB_MLE, _GB_OLE, _GB_RE, _GB_CE, _GB_CO);
-		echo "<tr><td>".$jresult[$row[0]]."<td align=center><a href=status.php?user_id=$user->user_id&jresult=".$row[0]." >".$row[1]."</a></tr>";
+		echo "<tr><td>".$jresult[$row[0]]."<td align=center><a href=../status/user.php?uid=$user->user_id&jresult=".$row[0]." >".$row[1]."</a></tr>";
 	}
 	mysql_free_result($result);
 echo "<tr id=pie><td>状态<td><div id='PieDiv' style='position:relative;height:105px;width:120px;'></div></tr>";
