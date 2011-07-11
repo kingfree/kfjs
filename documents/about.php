@@ -10,7 +10,7 @@ $index->MainHead();
 
 本评测系统基于HUSTOJ开发，GPL协议。采用LAMP构架。
 
-<iframe src="GPLV3.zh.html" width=900px></iframe>
+<iframe src="GPLV3.zh.html" width=900px height=600px></iframe>
 
 <?
 $index->MainFoot();

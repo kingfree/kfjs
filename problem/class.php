@@ -151,6 +151,7 @@ class Problem {
 	echo "<div class='ptt' style='width: 310px; margin : 10px 20px 0 10px;'>提交程序或答案</div>";
 	echo "<div class='ptx' style='width: 300px; margin : 0 30px 10px 10px;'>";
 	echo "<a href='../judge/status.php?id={$this->problem_id}'>状态</a> : 提交".$this->submit." ，解决".$this->solved."";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='../discuss/index.php?pid={$this->problem_id}'>[讨论]</a>";
 	echo "<form action='../judge/submit.php?id=$this->problem_id' method=post enctype='multipart/form-data'>\n";
 	if($this->program_type==0 || $this->program_type==2) {
 		echo "<li>"; $this->Language_Type(); echo "</li>\n";

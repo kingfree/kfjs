@@ -20,20 +20,20 @@
 	sudo chmod a+rx /home/www -R && sudo chown www-data /home/www -R
 2.导入数据库：
 	1)在浏览器上访问“http://localhost/phpmyadmin/”，按提示键入用户名为“root”，密码为【root密码】。
-	2)点击上方的『权限』标签，在出现的页面中点击『添加新用户』，设置【用户名】、【密码】（任意自定），主机选择『本地』，并选中『创建与用户同名的数据库并授予所有权限』。按“执行”完成【评测用户】及【数据库】创建。这里举例创建了【用户名】为“kjs”，【密码】为“kjs”的用户。
-	3)点击左栏的下拉菜单，选择“kjs”【数据库】，点击上方的『导入』，点击『选择文件』，选择解压后目录下“documents”的“kjs.sql”文件（旧版本是“jol.sql”），『文件字符集』为“utf8”。然后点击『执行』。
+	2)点击上方的『权限』标签，在出现的页面中点击『添加新用户』，设置【用户名】、【密码】（任意自定），主机选择『本地』，并选中『创建与用户同名的数据库并授予所有权限』。按“执行”完成【评测用户】及【数据库】创建。这里举例创建了【用户名】为“kfjs”，【密码】为“kfjs”的用户。
+	3)点击左栏的下拉菜单，选择“kfjs”【数据库】，点击上方的『导入』，点击『选择文件』，选择解压后目录下“documents”的“kfjs.sql”文件，『文件字符集』为“utf8”。然后点击『执行』。
 	4)提示『导入成功，执行了 35 个查询。』。完成数据库的准备工作。
-3.进入解压后的目录，配置如下：
-	1)编辑“include/db_info.inc.php”，修改为：
+3.进入解压后的目录，编辑“include/db_info.inc.php”，修改相应数据库参数。
 
-	2)
-
-三、配置编译器
+三、配置评测机
 
 1.安装C/C++ Pascal Python Perl Java的编译器，如：
 	sudo apt-get install fpc sun-java6-jdk gcc g++ python
-2.创建评测用户
-
+2.在任意位置创建上传目录（如“/home/judge/upload”），链接到评测机目录下的“upload”，如：
+    ln -s /home/judge/upload /home/www/kfjs/upload
+3.在任意位置创建测试数据目录（如“/home/judge/data”），链接到评测机目录下的“data”，如：
+    ln -s /home/judge/data /home/www/kfjs/data
+4.加入题目、数据。
 
 四、开始使用吧
 
@@ -41,3 +41,4 @@
 
 2011/05/17
 田劲锋
+

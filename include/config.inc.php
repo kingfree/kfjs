@@ -1,6 +1,6 @@
 <?php
 
-	define("_GB_Version_Number", "0.3.5");
+	define("_GB_Version_Number", "0.3.8");
 
 	define("_ID_GUEST", 0);
 	define("_ID_NO", -1);

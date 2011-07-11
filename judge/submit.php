@@ -11,8 +11,12 @@ if(!isset($_GET['id']))
 	$index->ShowError("出错！");
 $judge = new Judge($_GET['id']);
 
-$judge->Upload();
-$judge->CheckLang();
+if(isset($_GET['rejudge']) && $_GET['rejudge']==1)
+    $judge->ReJudge();
+else {
+    $judge->Upload();
+    $judge->CheckLang();
+}
 $judge->Complie();
 $judge->GetInfo();
 $judge->Judge();

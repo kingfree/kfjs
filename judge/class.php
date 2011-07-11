@@ -70,7 +70,6 @@ if($_POST['lang_type']=='auto') {
 	$this->Get_Complie_CMD();
 echo "对您所使用的语言使用如下编译命令：<br />";
 echo "<pre>$this->Complie_CMD</pre>";
-
 echo "处理源文件……";
 $file = fopen($this->filename, "rw");
 $code = "";
@@ -87,6 +86,9 @@ if(file_put_contents($this->filename, $code))
 echo "完成！";
 
 echo "</div>";
+}
+
+public function ReJedge() {
 }
 
 public function AddData() {
@@ -237,7 +239,7 @@ public function Judge() {
             $score = 0;
             $this->result = _num_RE;
             echo GetJudgeInfo(_num_RE)."\n";
-        } else {
+        } else if($s == -1) {
             $fout=fopen($output_name,"r");
             $fin=fopen($input_name,"r");
             $fans=fopen($answer_name,"r");

@@ -8,14 +8,30 @@ function GetProblemTitle($num) {
 }
 
 function GetJudgeInfo($num) {
-    if($num==_num_AC) return _lg_AC;
-    if($num==_num_WA) return _lg_WA;
-    if($num==_num_TL) return _lg_TL;
-    if($num==_num_ML) return _lg_ML;
-    if($num==_num_RE) return _lg_RE;
-    if($num==_num_NO) return _lg_NO;
-    if($num==_num_CE) return _lg_CE;
-    if($num==_num_NS) return _lg_NS;
+    if($num==_num_AC) return "<span style='color:#33cc33;'><b>"._lg_AC."</b></span>";
+    if($num==_num_WA) return "<span style='color:#ff0000;'>"._lg_WA."<span>";
+    if($num==_num_TL) return "<span style='color:#ff6600;'>"._lg_TL."<span>";
+    if($num==_num_ML) return "<span style='color:#cccc00;'>"._lg_ML."<span>";
+    if($num==_num_RE) return "<span style='color:#000087;'>"._lg_RE."<span>";
+    if($num==_num_NO) return "<span style='color:#6699ff;'>"._lg_NO."<span>";
+    if($num==_num_CE) return "<span style='color:#cc00cc;'>"._lg_CE."<span>";
+    if($num==_num_NS) return "<span style='color:#996666;'>"._lg_NS."<span>";
+}
+
+function GetDetailInfo($str) {
+    $s = "";
+    for($i=0; $i<strlen($str); $i++) {
+        if($str[$i]==_ch_AC) $s .= "<span style='color:#33cc33;'><b>"._ch_AC."</b></span>";
+        elseif($str[$i]==_ch_WA) $s .= "<span style='color:#ff0000;'>"._ch_WA."<span>";
+        elseif($str[$i]==_ch_TL) $s .= "<span style='color:#ff6600;'>"._ch_TL."<span>";
+        elseif($str[$i]==_ch_ML) $s .= "<span style='color:#cccc00;'>"._ch_ML."<span>";
+        elseif($str[$i]==_ch_RE) $s .= "<span style='color:#000087;'>"._ch_RE."<span>";
+        elseif($str[$i]==_ch_NO) $s .= "<span style='color:#6699ff;'>"._ch_NO."<span>";
+        elseif($str[$i]==_ch_CE) $s .= "<span style='color:#cc00cc;'>"._ch_CE."<span>";
+        elseif($str[$i]==_ch_NS) $s .= "<span style='color:#996666;'>"._ch_NS."<span>";
+        else $s .= $str[$i];
+    }
+    return $s;
 }
 
 function GetLangInfo($num) {

@@ -155,6 +155,8 @@
 	define("_ADMIN_JUDGE", "评测");
 	define("_ADMIN_SysInfo", "系统信息");
 	define("_ADMIN_Style", "系统样式");
+	define("_ADMIN_AddNews", "添加新闻");
+	define("_ADMIN_EditNews", "编辑新闻");
 	define("_ADMIN_AddProblem", "添加题目");
 	define("_ADMIN_EditProblem", "编辑题目");
 	define("_ADMIN_CopyProblem", "抄袭题目");

@@ -11,7 +11,7 @@ Admin::LoadLang();
 </head>
 
 <body>
-<div id=AdminMenu>
+<div id=AdminMenu class=AdminMenu>
 <h1 align=center><?=_ADMIN_ADMIN?></h1>
 <hr />
 
@@ -19,6 +19,8 @@ Admin::LoadLang();
 <ol>
 	<li><a href="../admin/SysInfo.php" target="main"><?=_ADMIN_SysInfo?></a></li>
 	<li><a href="../admin/Style.php" target="main"><?=_ADMIN_Style?></a></li>
+	<li><a href="../admin/AddNews.php" target="main"><?=_ADMIN_AddNews?></a></li>
+	<li><a href="../admin/EditNews.php" target="main"><?=_ADMIN_EditNews?></a></li>
 </ol>
 <h3><?=_ADMIN_PROBLEM?></h3>
 <ol>
@@ -28,12 +30,14 @@ Admin::LoadLang();
 	<li><a href="../admin/ImportProblem.php" target="main"><?=_ADMIN_ImportProblem?></a></li>
 	<li><a href="../admin/ExportProblem.php" target="main"><?=_ADMIN_ExportProblem?></a></li>
 </ol>
+<!--
 <h3><?=_ADMIN_CONTEST?></h3>
 <ol>
 	<li><a href="../admin/.php" target="main"><?=_ADMIN_AddContest?></a></li>
 	<li><a href="../admin/.php" target="main"><?=_ADMIN_EditContest?></a></li>
 	<li><a href="../admin/.php" target="main"><?=_ADMIN_JudgeContest?></a></li>
 </ol>
+-->
 <h3><?=_ADMIN_USER?></h3>
 <ol>
 	<li><a href="../admin/.php" target="main"><?=_ADMIN_AddUser?></a></li>
@@ -46,7 +50,7 @@ Admin::LoadLang();
 </ol>
 <h3><?=_ADMIN_JUDGE?></h3>
 <ol>
-	<li><a href="../admin/.php" target="main"><?=_ADMIN_Rejudge?></a></li>
+	<li><a href="../admin/Rejudge.php" target="main"><?=_ADMIN_Rejudge?></a></li>
 </ol>
 </div>
 <?/*

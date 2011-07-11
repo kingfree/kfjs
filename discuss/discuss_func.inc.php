@@ -19,10 +19,4 @@ function problem_exist($pid,$cid){
 	$result=mysql_query($sql) or die(mysql_error());
 	return mysql_num_rows($result)>0;
 }
-function err_msg($msg){
-	require_once("oj-header.php");
-	echo $msg;
-	require_once("oj-footer.php");
-	exit(0);
-}
 ?>

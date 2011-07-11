@@ -10,14 +10,11 @@ $index->MainHead();
 		$pid=intval($_REQUEST['pid']);
 	else
 		$pid=0;
-	if(isset($_REQUEST['pid']))
+	if(isset($_REQUEST['cid']))
 		$cid=intval($_REQUEST['cid']);
 	else
 		$cid=0;
 	$prob_exist = problem_exist($pid, $cid);
-	/*if ($cid!='' && $cid!=null && $prob_exist) require_once("contest-header.php");
-	else require_once("oj-header.php");
-	*/echo "<title>HUST Online Judge WebBoard</title>";
 ?>
 
 <center>
@@ -29,17 +26,17 @@ if ($prob_exist){?>
 if ($pid!=0 && $cid!=null) echo "?pid=".$pid."&cid=".$cid;
 else if ($pid!=0) echo "?pid=".$pid;
 else if ($cid!=null) echo "?cid=".$cid;?>
-">New Thread</a> ]</div>
+">发贴</a> ]</div>
 <div style="float:left;text-align:left;font-size:80%">
-Location :
+当前位置：
 <?
-if ($cid!=null) echo "<a href=\"discuss.php?cid=".$cid."\">Contest ".$cid."</a>"; else echo "<a href=\"discuss.php\">MainBoard</a>";
-if ($pid!=null && $pid!=0) echo " >> <a href=\"discuss.php?pid=".$pid."&cid=".$cid."\">Problem ".$pid."</a>";?>
+if ($cid!=null) echo "<a href=\"../discuss.php?cid=".$cid."\">比赛 ".$cid."</a>"; else echo "<a href=\"../discuss/index.php\">主页</a>";
+if ($pid!=null && $pid!=0) echo " >> <a href=\"../discuss/index.php?pid=".$pid."&cid=".$cid."\">题目 ".$pid."</a>";?>
 </div>
 
 <div style="float:right;font-size:80%;color:red;font-weight:bold">
 <? if ($pid!=null && $pid!=0 && ($cid=='' || $cid==null)){?>
-<a href="../problem.php?id=<?echo $pid?>">See the problem</a>
+<a href="../problem/problem.php?id=<?echo $pid?>">查看题目</a>
 <?}?>
 </div>
 <?}
@@ -65,12 +62,12 @@ $isadmin = isset($_SESSION['administrator']);
 <tr align=center class='toprow'>
 	<td width="2%"><? if ($isadmin) echo "<input type=checkbox>"; ?></td>
 	<td width="3%"></td>
-	<td width="4%">Prob</td>
-	<td width="12%">Author</td>
-	<td width="46%">Title</td>
-	<td width="8%">Post Date</td>
-	<td width="16%">Last Reply</td>
-	<td width="3%">Re</td>
+	<td width="4%">题目</td>
+	<td width="12%">作者</td>
+	<td width="46%">标题</td>
+	<td width="8%">发表时间</td>
+	<td width="16%">最后回复</td>
+	<td width="3%">回</td>
 </tr>
 <?
 if ($rows_cnt==0) echo("<tr class=\"evenrow\"><td colspan=4></td><td style=\"text-align:center\">No thread here.</td></tr>");
@@ -91,9 +88,9 @@ for ($i=0;$i<$rows_cnt;$i++){
 		else if ($row->count>20) echo"<b class=\"Hot\">Hot</b>";
 	echo "</td>";
 	echo "<td>";
-	if ($row->pid!=0) echo"<a href=\"discuss.php?pid={$row->pid}&cid={$row->cid}\">{$row->pid}</a>";
+	if ($row->pid!=0) echo"<a href=\"../discuss/index.php?pid={$row->pid}\">{$row->pid}</a>";
 	echo "</td>";
-	echo "<td><a href=\"../userinfo.php?user={$row->author_id}\">{$row->author_id}</a></td>";
+	echo "<td><a href=\"../users/info.php?user={$row->author_id}\">{$row->author_id}</a></td>";
 	echo "<td><a href=\"thread.php?tid={$row->tid}\">".nl2br(htmlspecialchars($row->title))."</a></td>";
 	echo "<td>{$row->posttime}</td>";
 	echo "<td>{$row->lastupdate}</td>";
@@ -117,5 +114,4 @@ mysql_free_result($result);
 $index->MainFoot();
 $index->BodyFoot();
 $index->HTMLFoot();
-
 ?>
